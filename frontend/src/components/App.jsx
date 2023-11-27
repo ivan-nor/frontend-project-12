@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import axios from 'axios'
 import '../assets/App.css'
 import Login from './Login'
 import ErrorPath from './ErrorPath'
@@ -6,7 +8,21 @@ import MainPage from './MainPage'
 import Chat from './Chat'
 
 function App () {
-  console.log('App front')
+  useEffect(() => {
+    axios.post('/api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
+      console.log(response.data) // => { token: ..., username: 'admin' }
+      const token = response.data.token
+
+      axios.get('/api/v1/data', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        console.log(response.data) // => { channels: [...], currentChannelId: 1, messages: [] }
+      }).catch(console.log)
+    })
+  })
+
   return (
     <BrowserRouter>
       <Routes>
