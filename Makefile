@@ -18,4 +18,4 @@ start:
 	make start-backend & make start-frontend
 
 start-deploy:
-	make start backend && cd frontend && npx serve -s build
+	make start-backend && cd frontend && npx serve -s build
