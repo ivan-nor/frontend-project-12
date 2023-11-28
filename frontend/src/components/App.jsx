@@ -10,7 +10,7 @@ import Chat from './Chat'
 function App () {
   useEffect(() => {
     axios.post('/api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
-      console.log(response.data) // => { token: ..., username: 'admin' }
+      console.log(response) // => { token: ..., username: 'admin' }
       const token = response.data.token
 
       axios.get('/api/v1/data', {
