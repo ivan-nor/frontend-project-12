@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import axios from 'axios'
@@ -8,20 +9,20 @@ import MainPage from './MainPage'
 import Chat from './Chat'
 
 function App () {
-  useEffect(() => {
-    axios.post('/api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
-      console.log(response) // => { token: ..., username: 'admin' }
-      const token = response.data.token
+  // useEffect(() => {
+  //   axios.post('/api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
+  //     console.log(response) // => { token: ..., username: 'admin' }
+  //     const token = response.data.token
 
-      axios.get('/api/v1/data', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then((response) => {
-        console.log(response.data) // => { channels: [...], currentChannelId: 1, messages: [] }
-      }).catch(console.log)
-    })
-  })
+  //     axios.get('/api/v1/data', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     }).then((response) => {
+  //       console.log(response.data) // => { channels: [...], currentChannelId: 1, messages: [] }
+  //     }).catch(console.log)
+  //   })
+  // })
 
   return (
     <BrowserRouter>
