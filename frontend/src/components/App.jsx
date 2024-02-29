@@ -78,23 +78,23 @@ function App () {
     <AuthProvider>
       <Router>
         <Navbar bg="light" expand="lg" className='p-2'>
-          <Navbar.Brand as={Link} to="/">Secret Place</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">Hexlet chat</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/public">Public page</Nav.Link>
-            <Nav.Link as={Link} to="/private">Private page</Nav.Link>
+            {/* <Nav.Link as={Link} to="/public">Public page</Nav.Link> */}
+            <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
           </Nav>
           <AuthButton />
         </Navbar>
 
         <div className="container p-3">
-          <h1 className="text-center mt-5 mb-4">Welcome to the secret place###</h1>
+          <h1 className="text-center mt-5 mb-4">Welcome to the HEXLET chat</h1>
           <Routes>
-            <Route path="/" element={null} />
-            <Route path="/public" element={<PublicPage />} />
+            <Route path="/" element={<MainPage />} />
+            {/* <Route path="/public" element={<PublicPage />} /> */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<ErrorPath />} />
             <Route
-              path="/private"
+              path="/chat"
               element={(
                 <PrivateRoute>
                   <ChatPage />
