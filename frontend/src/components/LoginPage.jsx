@@ -74,7 +74,7 @@ const LoginPage = () => {
         <div className='text-danger'>{authFailed ? 'the username or password is incorrect' : ''}</div>
           <Form onSubmit={formik.handleSubmit} className="p-3" name="form">
             <fieldset>
-              <Form.Group>
+              <Form.Group className='position-relative'>
                 <Form.Label htmlFor="username">Username</Form.Label>
                 <Form.Control
                   onFocus={handleFocus}
@@ -89,6 +89,7 @@ const LoginPage = () => {
                   ref={inputRef}
                 />
                 <Form.Control.Feedback type="invalid">{formik.errors.username ? formik.errors.username : null}</Form.Control.Feedback>
+                {/* <div className="invalid-tooltip">{formik.errors.username ? formik.errors.username : null}</div> */}
               </Form.Group>
               <Form.Group>
                 <Form.Label htmlFor="password">Password</Form.Label>
