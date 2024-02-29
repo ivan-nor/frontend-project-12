@@ -92,6 +92,7 @@ function App () {
             <Route path="/" element={null} />
             <Route path="/public" element={<PublicPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<ErrorPath />} />
             <Route
               path="/private"
               element={(
