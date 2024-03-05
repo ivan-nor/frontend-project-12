@@ -66,22 +66,18 @@ function App () {
           <AuthButton />
         </HeaderComponent>
 
-        <div className="container p-3">
-          <h1 className="text-center mt-5 mb-4">Welcome to the HEXLET chat</h1>
-          <Routes>
-            <Route
-              path="/"
-              element={(
-                <PrivateRoute>
-                  <ChatPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </div>
-
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <PrivateRoute>
+                <ChatPage />
+              </PrivateRoute>
+            )}
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
       </Router>
     </AuthProvider>
   )

@@ -5,10 +5,11 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import useAuth from '../../hooks'
+import LoginComponent from '../ui/LoginComponent'
 import FormComponent from '../ui/FormComponent'
 
 const LoginPage = () => {
-  const [authFailed, setAuthFailed] = useState(false)
+  const [authFailed, setAuthFailed] = useState(false) // изменить этот флаг на formik.isValid чтобы убрать лишний пропс
   const location = useLocation()
   const navigate = useNavigate()
   const auth = useAuth()
@@ -66,11 +67,13 @@ const LoginPage = () => {
   }
 
   return (
-    <FormComponent
-      formik={formik}
-      handleFocus={handleFocus}
-      authFailed={authFailed}
-    />
+    <LoginComponent>
+      <FormComponent
+        formik={formik}
+        handleFocus={handleFocus}
+        authFailed={authFailed}
+      />
+    </LoginComponent>
   )
 }
 
