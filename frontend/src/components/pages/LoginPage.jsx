@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import useAuth from '../hooks'
-import FormComponent from './ui/FormComponent'
+import useAuth from '../../hooks'
+import FormComponent from '../ui/FormComponent'
 
 const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false)

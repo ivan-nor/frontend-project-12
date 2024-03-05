@@ -16,9 +16,9 @@ import { Button, Navbar, Nav } from 'react-bootstrap'
 import useAuth from '../hooks/index.jsx'
 import AuthContext from '../contexts/index.jsx'
 
-import LoginPage from './LoginPage'
-import ErrorPage from './ErrorPage.jsx'
-import ChatPage from './ChatPage'
+import LoginPage from './pages/LoginPage.jsx'
+import ErrorPage from './pages/ErrorPage.jsx'
+import ChatPage from './pages/ChatPage.jsx'
 import HeaderComponent from './ui/HeaderComponent.jsx'
 
 const AuthProvider = ({ children }) => {

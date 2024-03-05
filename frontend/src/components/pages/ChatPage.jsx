@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 // import { Link, Outlet, Navigate, useLocation, useNavigate } from 'react-router-dom'
 // import useAuth from '../hooks'
-import routes from '../routes'
+import routes from '../../routes'
 import axios from 'axios'
 
 export default function ChatPage () {
