@@ -13,10 +13,15 @@ const LoginPage = () => {
   const navigate = useNavigate()
   const auth = useAuth()
   const inputRef = useRef()
-  // useEffect(() => {
+  // useEffect(() => { // ФОКУС на инпуте при монтировании
   //   inputRef.current.focus()
   // }, [])
-  // useEffect(() => console.log('authFailed', authFailed), [authFailed])
+  useEffect(() => { // проверка на залогированность
+    console.log('LOGIN', localStorage, location, location.state, auth)
+    if (auth.loggedIn) {
+      navigate('/')
+    }
+  }, [])
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -35,18 +40,18 @@ const LoginPage = () => {
       password: ''
     },
     validationSchema: SignupSchema,
-    onBlur: (e, param) => console.log('bluuuuurr', e, param),
     onSubmit: async (values) => {
-      console.log(JSON.stringify(values, null, 2))
+      // console.log(JSON.stringify(values, null, 2))
       setAuthFailed(false)
 
       try {
         const response = await axios.post('/api/v1/login', values)
         localStorage.setItem('userId', JSON.stringify(response.data))
+        console.log('LOGIN response', response, response.data)
+        // console.log('LOGIN location', location, location.state)
         auth.logIn()
         const { from } = location.state
         navigate(from)
-        console.log('LOGIN response', response.data)
       } catch (err) {
         formik.setSubmitting(false)
         if (err.isAxiosError && err.response.status === 401) {
@@ -59,8 +64,7 @@ const LoginPage = () => {
     }
   })
 
-  const handleFocus = () => {
-    // console.log('focus')
+  const handleFocus = () => { // очистка формы при вводе после неуспешной авторизации
     if (authFailed) {
       setAuthFailed(false)
       formik.resetForm()

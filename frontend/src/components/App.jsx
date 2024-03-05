@@ -6,7 +6,8 @@ import {
   Route,
   Link,
   Navigate,
-  useLocation
+  useLocation,
+  useNavigate
 } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
@@ -22,7 +23,8 @@ import MainPage from './MainPage'
 import ChatPage from './ChatPage'
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const initialLogged = localStorage.getItem('userId') !== null
+  const [loggedIn, setLoggedIn] = useState(initialLogged)
 
   const logIn = () => setLoggedIn(true)
   const logOut = () => {
@@ -48,24 +50,10 @@ const PrivateRoute = ({ children }) => {
 }
 
 function App () {
-  // useEffect(() => {
-  //   axios.post('/api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
-  //     console.log(response) // => { token: ..., username: 'admin' }
-  //     const token = response.data.token
-
-  //     axios.get('/api/v1/data', {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     }).then((response) => {
-  //       console.log(response.data) // => { channels: [...], currentChannelId: 1, messages: [] }
-  //     }).catch(console.log)
-  //   })
-  // })
-
   const AuthButton = () => {
     const auth = useAuth()
     const location = useLocation()
+    // console.log('APPlocation', location, 'FROM', location.state)
 
     return (
       auth.loggedIn
@@ -80,8 +68,7 @@ function App () {
         <Navbar bg="light" expand="lg" className='p-2'>
           <Navbar.Brand as={Link} to="/">Hexlet chat</Navbar.Brand>
           <Nav className="me-auto">
-            {/* <Nav.Link as={Link} to="/public">Public page</Nav.Link> */}
-            <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
+            <Nav.Link as={Link} to="/">Chat</Nav.Link>
           </Nav>
           <AuthButton />
         </Navbar>
@@ -89,37 +76,22 @@ function App () {
         <div className="container p-3">
           <h1 className="text-center mt-5 mb-4">Welcome to the HEXLET chat</h1>
           <Routes>
-            <Route path="/" element={<MainPage />} />
-            {/* <Route path="/public" element={<PublicPage />} /> */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<ErrorPath />} />
             <Route
-              path="/chat"
+              path="/"
               element={(
                 <PrivateRoute>
                   <ChatPage />
                 </PrivateRoute>
               )}
             />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<ErrorPath />} />
           </Routes>
         </div>
 
       </Router>
     </AuthProvider>
   )
-
-  // return (
-  //   <BrowserRouter>
-  //     <Routes>
-  //       <Route path="/" element={<MainPage />} >
-  //         <Route index element={<div>No page is selected.</div> } />
-  //         <Route path="login" element={<Login />} />
-  //         <Route path="chat" element={<Chat />} />
-  //         <Route path="*" element={<ErrorPath />} />
-  //       </Route>
-  //     </Routes>
-  //   </BrowserRouter>
-  // )
 }
 
 AuthProvider.propTypes = {
