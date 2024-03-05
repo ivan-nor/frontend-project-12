@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,16 +11,15 @@ import {
 } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
-
 import { Button, Navbar, Nav } from 'react-bootstrap'
+
 import useAuth from '../hooks/index.jsx'
 import AuthContext from '../contexts/index.jsx'
-import '../assets/App.css'
+
 import LoginPage from './LoginPage'
-import PublicPage from './PublicPage'
-import ErrorPath from './ErrorPath'
-import MainPage from './MainPage'
+import ErrorPage from './ErrorPage.jsx'
 import ChatPage from './ChatPage'
+import HeaderComponent from './ui/HeaderComponent.jsx'
 
 const AuthProvider = ({ children }) => {
   const initialLogged = localStorage.getItem('userId') !== null
@@ -29,7 +28,6 @@ const AuthProvider = ({ children }) => {
   const logIn = () => setLoggedIn(true)
   const logOut = () => {
     localStorage.removeItem('userId')
-    // console.log('LOGOUT')
     setLoggedIn(false)
   }
 
@@ -53,7 +51,6 @@ function App () {
   const AuthButton = () => {
     const auth = useAuth()
     const location = useLocation()
-    // console.log('APPlocation', location, 'FROM', location.state)
 
     return (
       auth.loggedIn
@@ -65,13 +62,9 @@ function App () {
   return (
     <AuthProvider>
       <Router>
-        <Navbar bg="light" expand="lg" className='p-2'>
-          <Navbar.Brand as={Link} to="/">Hexlet chat</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Chat</Nav.Link>
-          </Nav>
+        <HeaderComponent link={Link} route={'/'} >
           <AuthButton />
-        </Navbar>
+        </HeaderComponent>
 
         <div className="container p-3">
           <h1 className="text-center mt-5 mb-4">Welcome to the HEXLET chat</h1>
@@ -85,7 +78,7 @@ function App () {
               )}
             />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<ErrorPath />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
 
