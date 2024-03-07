@@ -8,7 +8,7 @@ const FormComponent = ({ formik, handleFocus, authFailed }) => {
     <>
       <div className='text-danger'>{authFailed ? 'the username or password is incorrect' : ''}</div>
       <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-            <FloatingLabel htmlFor="username" label='Username' controlId='username' className='mb-3'>
+            <FloatingLabel htmlFor="username" label='Username' className='mb-3'>
               <InputComponent
                 name={'username'}
                 isInvalid={formik.errors.username || authFailed}
@@ -18,7 +18,7 @@ const FormComponent = ({ formik, handleFocus, authFailed }) => {
               />
               <Form.Control.Feedback type="invalid">{formik.errors.username ? formik.errors.username : null}</Form.Control.Feedback>
             </FloatingLabel>
-            <FloatingLabel controlId='password' label='Password' htmlFor="password" className='mb-4'>
+            <FloatingLabel label='Password' htmlFor="password" className='mb-4'>
               <InputComponent
                 name={'password'}
                 handleFocus={handleFocus}
