@@ -3,11 +3,10 @@ import routes from '../../routes'
 import axios from 'axios'
 
 import ChatComponent from '../ui/ChatComponent'
-import ChannelsComponent from '../ui/ChannelsComponent'
-import InputMessageComponent from '../ui/InputMessageComponent'
 
-export default function ChatPage () {
+export default function ChatPage () { // заменить все на redux entity adapter
   const [channels, setChannels] = useState([])
+  const [messages, setMessages] = useState([])
 
   useEffect(() => { // загрузка каналов при старте
     const { token } = JSON.parse(localStorage.getItem('userId'))
@@ -19,19 +18,28 @@ export default function ChatPage () {
           Authorization: `Bearer ${token}`
         }
       })
-
       setChannels(res.data)
     }
-
     fetchChannels()
   }, [])
 
-  useEffect(() => console.log(channels), [channels])
+  useEffect(() => { // загрузка сообщений при старте
+    const { token } = JSON.parse(localStorage.getItem('userId'))
+
+    const fetchMessages = async () => {
+      const res = await axios.get(routes.messagesPath(), {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setMessages(res.data)
+    }
+    fetchMessages()
+  }, [])
+
+  useEffect(() => console.log(channels, messages), [channels, messages])
 
   return (
-    <ChatComponent>
-      <ChannelsComponent channels={channels}/>
-      <InputMessageComponent />
-    </ChatComponent>
+    <ChatComponent channels={channels} messages={messages} />
   )
 }
