@@ -4,6 +4,8 @@ import { Row, Col, Tab, Nav, Button, ButtonGroup, Dropdown } from 'react-bootstr
 import ChatWindow from './ChatWindow'
 import InputMessageComponent from './InputMessageComponent'
 
+// ДОБАВИТЬ обработку киликов по кнопке канала
+
 const Buttons = () => (
   <ButtonGroup aria-label="Basic example">
       <Dropdown as={ButtonGroup}>
@@ -22,7 +24,7 @@ const Buttons = () => (
 
 const ChatComponent = ({ channels, messages }) => {
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+    <Tab.Container id="left-tabs-example" defaultactivekey="first" fluid>
       <Row>
         <Col sm={3}>
           <Nav variant="pills" className="flex-column">
@@ -37,11 +39,13 @@ const ChatComponent = ({ channels, messages }) => {
           </Nav>
         </Col>
         <Col sm={9} className='d-flex flex-column justify-content-between'>
-          <Tab.Content defaultActiveKey='first'>
+          <Tab.Content defaultactivekey='first'>
             <Tab.Pane eventKey="first" as='div'>
-              <ChatWindow />
+              <ChatWindow channels={channels[0]}/>
             </Tab.Pane>
-            <Tab.Pane eventKey="second" as='div'>Second tab content</Tab.Pane>
+            <Tab.Pane eventKey="second" as='div'>
+              <ChatWindow channels={channels[1]} />
+            </Tab.Pane>
           </Tab.Content>
           <InputMessageComponent />
         </Col>
