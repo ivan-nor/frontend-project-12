@@ -17,6 +17,7 @@ import useAuth from '../hooks/index.jsx'
 import AuthContext from '../contexts/index.jsx'
 
 import LoginPage from './pages/LoginPage.jsx'
+import SignupPage from './pages/SignupPage.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
 import ChatPage from './pages/ChatPage.jsx'
 import HeaderComponent from './ui/HeaderComponent.jsx'
@@ -76,6 +77,7 @@ function App () {
             )}
           />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Router>
