@@ -7,6 +7,7 @@ import axios from 'axios'
 import useAuth from '../../hooks'
 import LoginComponent from '../ui/LoginComponent'
 import FormComponent from '../ui/FormComponent'
+import InputComponent from '../ui/InputComponent'
 
 const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false) // изменить этот флаг на formik.isValid чтобы убрать лишний пропс
@@ -15,7 +16,7 @@ const LoginPage = () => {
   const auth = useAuth()
 
   useEffect(() => { // проверка на залогированность
-    console.log('LOGIN', localStorage, location, location.state, auth)
+    // console.log('LOGIN', localStorage, location, location.state, auth)
     if (auth.loggedIn) {
       navigate('/')
     }
@@ -72,7 +73,22 @@ const LoginPage = () => {
         formik={formik}
         handleFocus={handleFocus}
         authFailed={authFailed}
-      />
+      >
+        <InputComponent
+          name={'username'}
+          value={formik.values.username}
+          handleChange={formik.handleChange}
+          handleFocus={handleFocus}
+          isInvalid={formik.errors.username || authFailed}
+        />
+        <InputComponent
+          name={'password'}
+          value={formik.values.password}
+          handleChange={formik.handleChange}
+          handleFocus={handleFocus}
+          isInvalid={formik.errors.password || authFailed}
+        />
+      </FormComponent>
     </LoginComponent>
   )
 }

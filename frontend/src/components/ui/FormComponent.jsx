@@ -1,40 +1,22 @@
 /* eslint-disable react/prop-types */
 // import { useState } from 'react'
-import { Form, Button, FloatingLabel } from 'react-bootstrap'
-import InputComponent from './InputComponent'
-
-const FormComponent = ({ formik, handleFocus, authFailed }) => {
+import { Form, Button } from 'react-bootstrap'
+const FormComponent = ({ formik, authFailed, children }) => {
+  // console.log(formik.errors, formik.touched)
   return (
     <>
-      <div className='text-danger'>{authFailed ? 'the username or password is incorrect' : ''}</div>
-      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-            <FloatingLabel htmlFor="username" label='Username' className='mb-3'>
-              <InputComponent
-                name={'username'}
-                isInvalid={formik.errors.username || authFailed}
-                value={formik.values.username}
-                handleFocus={handleFocus}
-                handleChange={formik.handleChange}
-              />
-              <Form.Control.Feedback type="invalid">{formik.errors.username ? formik.errors.username : null}</Form.Control.Feedback>
-            </FloatingLabel>
-            <FloatingLabel label='Password' htmlFor="password" className='mb-4'>
-              <InputComponent
-                name={'password'}
-                handleFocus={handleFocus}
-                handleChange={formik.handleChange}
-                value={formik.values.password}
-                isInvalid={formik.errors.password || authFailed}
-              />
-              <Form.Control.Feedback type="invalid">{formik.errors.password ? formik.errors.password : ''}</Form.Control.Feedback>
-            </FloatingLabel>
-          <Button type="submit" variant="outline-primary">Submit</Button>
+      { authFailed && <div className='text-danger'>the username or password is incorrect</div>}
+      { Object.keys(formik.errors).map((key) => <div className='text-danger' key={key}>{formik.errors[key]}</div>)}
+      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0 w-100">
+        {children}
+        <Form.Control.Feedback type="invalid">{formik.errors.password ? formik.errors.password : ''}</Form.Control.Feedback>
+        <Button type="submit" variant="primary" disabled={Object.keys(formik.errors).length}>Зарегистрироваться</Button>
       </Form>
     </>
   )
 }
 
-// TODO: доработать ваоидацию пропсов
+// TODO: доработать валидацию пропсов
 
 // FormComponent.propTypes = { // доработать
 //   formik: 'object',
