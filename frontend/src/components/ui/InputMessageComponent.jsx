@@ -6,14 +6,20 @@ const InputMessageComponent = () => {
 
   const handleSubmit = (e) => { // dispatch(sendMessage(value))
     e.preventDefault()
-    console.log(value)
+    console.log('SEND MESSAGE', value)
     setValue('')
   }
 
   return (
-      <Form name='inputMessage' onSubmit={handleSubmit} align-content-end>
+      <Form name='inputMessage' onSubmit={handleSubmit} className='p-2 align-content-end'>
         <InputGroup>
-          <Form.Control type='text' value={value} onChange={(e) => setValue(e.target.value)} placeholder='введите сообщение' inline/>
+          <Form.Control
+            type='text'
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder='введите сообщение'
+            className='d-inline'
+          />
           <Button type='submit' inline>отправить</Button>
         </InputGroup>
       </Form>
