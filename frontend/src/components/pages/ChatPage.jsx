@@ -1,45 +1,49 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
-import routes from '../../routes'
-import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { selectors as channelsSelectors, fetchChannels } from '../../slices/channelsSlice.js'
+import { selectors as messagesSelectors, fetchMessages, addMessage } from '../../slices/messagesSlice.js'
 
 import ChatComponent from '../ui/ChatComponent'
+import ChannelsComponent from '../ui/ChannelsComponent'
+import InputMessageComponent from '../ui/InputMessageComponent'
+import ChatWindow from '../ui/ChatWindow'
 
-export default function ChatPage () { // заменить все на redux entity adapter
-  const [channels, setChannels] = useState([])
-  const [messages, setMessages] = useState([])
-
-  useEffect(() => { // загрузка каналов при старте
-    const { token } = JSON.parse(localStorage.getItem('userId'))
-    console.log(token)
-
-    const fetchChannels = async () => {
-      const res = await axios.get(routes.channelsPath(), {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      setChannels(res.data)
-    }
-    fetchChannels()
-  }, [])
+// #TODO перенести сюда всю логику и сделать чат инпут и каналы глупыми компонентами
+export default function ChatPage () {
+  const [activeId, setActiveId] = useState(null)
+  const [text, setText] = useState('')
+  const dispatch = useDispatch()
 
   useEffect(() => { // загрузка сообщений при старте
-    const { token } = JSON.parse(localStorage.getItem('userId'))
-
-    const fetchMessages = async () => {
-      const res = await axios.get(routes.messagesPath(), {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      setMessages(res.data)
-    }
-    fetchMessages()
+    dispatch(fetchMessages())
   }, [])
 
-  useEffect(() => console.log(channels, messages), [channels, messages])
+  useEffect(() => { // загрузка каналов при старте
+    dispatch(fetchChannels())
+  }, [])
+
+  useEffect(() => console.log('CHAT PAGE'), [])
+
+  const handleChange = (e) => {
+    setText(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newMessage = { body: text, channelId: activeId, username: 'admin' }
+    console.log('SEND MESSAGE id', activeId, text)
+    dispatch(addMessage(newMessage))
+    setText('')
+  }
 
   return (
-    <ChatComponent channels={channels} messages={messages} />
+    <>
+      <ChatComponent />
+        
+      <ChatWindow />
+      <InputMessageComponent handleChange={handleChange} handleSubmit={handleSubmit} value={text} />
+    </>
   )
 }
