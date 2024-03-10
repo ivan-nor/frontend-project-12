@@ -4,20 +4,19 @@ import axios from 'axios'
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit'
 import routes from '../routes'
 
-export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
-  async () => {
-    const response = await axios.get(routes.userPath())
-    return response.data.items
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
+  async ({ username, password }) => {
+    const response = await axios.get(routes.loginPath(), { username, password })
+    return response.data // => { token: ..., username: 'admin' }
   }
 )
 
-// BEGIN (write your solution here)
 export const createUser = createAsyncThunk(
   'user/createUser',
-  async (name) => {
-    const response = await axios.post(routes.userPath(), { name })
-    return response.data
+  async ({ username, password }) => {
+    const response = await axios.post(routes.signupPatn(), { username, password })
+    return response.data // => { token: ..., username: 'newuser' }
   }
 )
 
@@ -30,8 +29,8 @@ const userSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        userAdapter.addMany(state, action.payload)
+      .addCase(loginUser.fulfilled, (state, action) => {
+        userAdapter.addMany(state, action.payload) // изменить метод
       })
       .addCase(createUser.fulfilled, (state, action) => {
         userAdapter.addOne(state, action.payload)
@@ -40,4 +39,5 @@ const userSlice = createSlice({
 })
 
 export const { actions } = userSlice
+export const selectors = userAdapter.getSelectors((state) => state.user)
 export default userSlice.reducer
