@@ -12,7 +12,7 @@ export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async () => {
     const response = await axios.get(routes.messagesPath(), { headers })
-    console.log('fetch messages', response.data)
+    // console.log('fetch messages', response.data)
     return response.data // =>[{ id: '1', body: 'text message', channelId: '1', username: 'admin }, ...]
   }
 )
@@ -53,7 +53,7 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
-        console.log('fetch messages', action)
+        // console.log('FETCH MESSAGES', action)
         messagesAdapter.addMany(state, action.payload)
       })
       .addCase(addMessage.fulfilled, (state, action) => {

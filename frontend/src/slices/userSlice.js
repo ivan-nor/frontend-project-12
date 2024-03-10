@@ -4,6 +4,7 @@ import axios from 'axios'
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit'
 import routes from '../routes'
 
+// #TODO переделать в логине отправку и получание токена и запись его в стор
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async ({ username, password }) => {
@@ -30,7 +31,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        userAdapter.addMany(state, action.payload) // изменить метод
+        userAdapter.addOne(state, action.payload)
       })
       .addCase(createUser.fulfilled, (state, action) => {
         userAdapter.addOne(state, action.payload)

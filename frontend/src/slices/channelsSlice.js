@@ -4,7 +4,7 @@ import axios from 'axios'
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit'
 import routes from '../routes'
 
-const { token } = JSON.parse(localStorage.getItem('userId')) // брать из редакса, начальное состояние, отдельный слайс
+const { token } = JSON.parse(localStorage.getItem('userId')) // #TODO брать из редакса, начальное состояние, отдельный слайс
 console.log(token)
 const headers = { Authorization: `Bearer ${token}` }
 
@@ -52,17 +52,17 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.fulfilled, (state, action) => {
-        console.log('FETCH CAHNNELS, action', action)
+        // console.log('FETCH CAHNNELS, action', action)
         channelsAdapter.addMany(state, action.payload)
       })
       .addCase(addChannel.fulfilled, (state, action) => {
-        console.log('ADD CAHNNELS, action', action)
+        // console.log('ADD CAHNNELS, action', action)
         channelsAdapter.addOne(state, action.payload)
       })
-      .addCase(editChannel.fulfilled, (state, action) => { // изменить, в адаптере посмотеть как изменять сущность
+      .addCase(editChannel.fulfilled, (state, action) => { // #TODO изменить, в адаптере посмотеть как изменять сущность
         channelsAdapter.changeOne(state, action.payload)
       })
-      .addCase(removeChannel.fulfilled, (state, { payload }) => {
+      .addCase(removeChannel.fulfilled, (state, { payload }) => { // #TODO узнать как правильно обновлять
         const channelsIds = payload.channels
 
         const restEntities = Object.values(state.entities)
