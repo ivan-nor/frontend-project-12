@@ -13,37 +13,34 @@ import ChatWindow from '../ui/ChatWindow'
 // #TODO перенести сюда всю логику и сделать чат инпут и каналы глупыми компонентами
 export default function ChatPage () {
   const [activeId, setActiveId] = useState(null)
-  const [text, setText] = useState('')
   const dispatch = useDispatch()
+  const messages = useSelector(messagesSelectors.selectAll)
+  const channels = useSelector(channelsSelectors.selectAll)
 
-  useEffect(() => { // загрузка сообщений при старте
-    dispatch(fetchMessages())
+  useEffect(() => {
+    dispatch(fetchMessages()) // загрузка сообщений при старте
+    dispatch(fetchChannels()) // загрузка каналов при старте
+
+    console.log('CHAT PAGE')
+    setActiveId(channels[1]?.id)
   }, [])
 
-  useEffect(() => { // загрузка каналов при старте
-    dispatch(fetchChannels())
-  }, [])
+  useEffect(() => {
+    console.log('EFFECT', channels, messages, activeId, channels[0])
 
-  useEffect(() => console.log('CHAT PAGE'), [])
+    if (!activeId && channels[1]?.id) {
+      setActiveId(channels[1].id)
+      console.log('SET aCtive ID', activeId)
+    }
+  }, [channels])
 
-  const handleChange = (e) => {
-    setText(e.target.value)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const newMessage = { body: text, channelId: activeId, username: 'admin' }
-    console.log('SEND MESSAGE id', activeId, text)
+  const handleSubmit = (body) => {
+    const newMessage = { body, channelId: activeId, username: 'admin' }
+    console.log('SEND MESSAGE id', activeId, body)
     dispatch(addMessage(newMessage))
-    setText('')
   }
 
   return (
-    <>
-      <ChatComponent />
-        
-      <ChatWindow />
-      <InputMessageComponent handleChange={handleChange} handleSubmit={handleSubmit} value={text} />
-    </>
+    <ChatComponent handleSubmit={handleSubmit} />
   )
 }
