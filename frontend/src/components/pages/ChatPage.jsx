@@ -21,18 +21,20 @@ export default function ChatPage () {
     dispatch(fetchMessages()) // загрузка сообщений при старте
     dispatch(fetchChannels()) // загрузка каналов при старте
 
-    console.log('CHAT PAGE')
-    setActiveId(channels[1]?.id)
+    console.log('CHAT PAGE', channels)
+    setActiveId(channels[0]?.id)
   }, [])
 
   useEffect(() => {
-    console.log('EFFECT', channels, messages, activeId, channels[0])
+    console.log('EFFECT', channels, activeId, Object.values(channels), channels[0]?.id)
 
-    if (!activeId && channels[1]?.id) {
-      setActiveId(channels[1].id)
-      console.log('SET aCtive ID', activeId)
+    if (!activeId && Object.values(channels).length > 0) {
+      setActiveId(channels[0].id)
+      console.log('SET aCtive ID', activeId, channels)
     }
   }, [channels])
+
+  useEffect(() => console.log('active id', activeId), [activeId])
 
   const handleSubmit = (body) => {
     const newMessage = { body, channelId: activeId, username: 'admin' }
@@ -40,7 +42,15 @@ export default function ChatPage () {
     dispatch(addMessage(newMessage))
   }
 
+  const handleEditChannel = () => {
+    console.log('edit channel')
+  }
+
+  const handleRemoveChannel = () => {
+    console.log('remove channel')
+  }
+
   return (
-    <ChatComponent handleSubmit={handleSubmit} />
+    <ChatComponent handleSubmit={handleSubmit} handleActiveTab={(id) => setActiveId(id)} activeId={activeId} handleEditChannel={handleEditChannel} handleRemoveChannel={handleRemoveChannel}/>
   )
 }
