@@ -1,31 +1,28 @@
 /* eslint-disable react/prop-types */
-import { useEffect, memo } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { selectors } from '../../slices/messagesSlice'
+import { selectors, messagesOfChannelSelector } from '../../slices/messagesSlice'
 
 const ChatWindow = ({ id }) => {
-  const messages = useSelector((state) => {
-    const currentMessages = selectors.selectById(state, id)
-    const messages = selectors.selectAll(state)
-    console.log('CaT WINDOW curr messages', id, typeof id, selectors.selectById, currentMessages, messages)
+  // const messages = useSelector((state) => {
+  //   const messages = selectors.selectAll(state)
+  //   const currentMessages = Object.values(messages).filter(({ channelId }) => channelId === id)
+  //   console.log('CaT WINDOW curr messages', id, messages, currentMessages)
 
-    if (!currentMessages) {
-      return []
-    }
+  //   if (!currentMessages) {
+  //     return []
+  //   }
 
-    return currentMessages
-  })
-  // const currentMessages = messages.filter(({ channelId }) => channelId === id)
+  //   return currentMessages
+  // })
 
-  // useEffect(() => console.log('CHAT WINDOW', messages, id))
+  const messages = useSelector(messagesOfChannelSelector(id))
 
-  const ChatTitle = memo(function ChatTitle ({ id }) {
-    return <h1>CHAT WINDOW {id}</h1>
-  })
+  // useEffect(() => console.log('CHAT WINDOW rerender?', id, messages), [id, messages])
 
   return (
     <>
-      <ChatTitle id={id} />
+      <h1>CHAT WINDOW {id}</h1>
       <ul>
         {messages?.map((message) => (
           <li key={message.id}>USER: {message.username} | MESSAGE: {message.body}</li>

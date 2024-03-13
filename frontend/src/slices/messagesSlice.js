@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
 
-import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createEntityAdapter, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import routes from '../routes'
 
 let headers = {}
@@ -43,6 +43,17 @@ export const removeMessage = createAsyncThunk(
     const editedMessage = { body: 'new body message' }
     const response = await axios.delete(routes.messagePath(id), editedMessage, { headers })
     return response.data // => { id: '3' }
+  }
+)
+
+export const messagesOfChannelSelector = (channelId) => createSelector(
+  [(state) => {
+    // console.log(state)
+    return state.messages
+  }],
+  (state) => {
+    // console.log('IN SELECTOR', Object.values(state.entities))
+    return Object.values(state.entities).filter((message) => message.channelId === channelId)
   }
 )
 
