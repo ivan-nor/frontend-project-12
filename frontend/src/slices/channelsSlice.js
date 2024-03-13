@@ -21,7 +21,7 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async (name) => {
+  async ({ name }) => {
     const newChannel = { name }
     const response = await axios.post(routes.channelsPath(), newChannel, { headers })
     return response.data // { id: '3', name: 'new channel', removable: true }
@@ -30,16 +30,16 @@ export const addChannel = createAsyncThunk(
 
 export const editChannel = createAsyncThunk(
   'channels/editChannel',
-  async (name) => {
+  async ({ name, id }) => {
     const editedChannel = { name }
-    const response = await axios.patch(routes.channelPath(), editedChannel, { headers })
+    const response = await axios.patch(routes.channelPath(id), editedChannel, { headers })
     return response.data // => { id: '3', name: 'new name channel', removable: true }
   }
 )
 
 export const removeChannel = createAsyncThunk(
-  'channels/removeTask',
-  async (id) => {
+  'channels/removeChannel',
+  async ({ id }) => {
     const response = await axios.delete(routes.channelPath(id), { headers })
     return response.data // => { id: '3' }
   }
@@ -55,23 +55,16 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.fulfilled, (state, action) => {
-        // console.log('FETCH CAHNNELS, action', action)
         channelsAdapter.addMany(state, action.payload)
       })
       .addCase(addChannel.fulfilled, (state, action) => {
-        // console.log('ADD CAHNNELS, action', action)
         channelsAdapter.addOne(state, action.payload)
       })
-      .addCase(editChannel.fulfilled, (state, action) => { // #TODO изменить, в адаптере посмотеть как изменять сущность
-        channelsAdapter.changeOne(state, action.payload)
+      .addCase(editChannel.fulfilled, (state, action) => {
+        channelsAdapter.updateOne(state, { id: action.payload.id, changes: action.payload })
       })
-      .addCase(removeChannel.fulfilled, (state, { payload }) => { // #TODO узнать как правильно обновлять
-        const channelsIds = payload.channels
-
-        const restEntities = Object.values(state.entities)
-          .filter((e) => !channelsIds.includes(e.id))
-
-        channelsAdapter.setAll(state, restEntities)
+      .addCase(removeChannel.fulfilled, (state, action) => {
+        channelsAdapter.removeOne(state, action.payload.id)
       })
   }
 })
