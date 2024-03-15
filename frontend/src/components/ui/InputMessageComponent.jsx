@@ -6,20 +6,10 @@ import { Form, Button, InputGroup } from 'react-bootstrap'
 
 const InputMessageComponent = ({ handleSubmit }) => {
   const [value, setValue] = useState('')
-  // const dispatch = useDispatch()
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   const newMessage = { body: value, channelId: id, username: 'admin' }
-  //   console.log('SEND MESSAGE id', id, value)
-  //   dispatch(addMessage(newMessage))
-  //   setValue('')
-  // }
 
   const handleChange = (e) => setValue(e.target.value)
 
   const handleSubmitInForm = (e) => {
-    console.log('SUBMIT IN FORM', e.target, value)
     e.preventDefault()
     handleSubmit(value)
     setValue('')
