@@ -1,22 +1,23 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
 import useAuth from '../../hooks'
+import { loginUser } from '../../slices/usersSlice'
 import LoginComponent from '../ui/LoginComponent'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 
 const LoginPage = () => {
-  const [authFailed, setAuthFailed] = useState(false) // изменить этот флаг на formik.isValid чтобы убрать лишний пропс
-  const location = useLocation()
+  const [authFailed, setAuthFailed] = useState(false) // #TODO изменить этот флаг на formik.isValid чтобы убрать лишний пропс
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const auth = useAuth()
+  const loginError = useSelector(state => state.users.error)
 
   useEffect(() => { // проверка на залогированность
-    // console.log('LOGIN', localStorage, location, location.state, auth)
     if (auth.loggedIn) {
       navigate('/')
     }
@@ -43,19 +44,13 @@ const LoginPage = () => {
       setAuthFailed(false)
 
       try {
-        const response = await axios.post('/api/v1/login', values)
-        localStorage.setItem('userId', JSON.stringify(response.data))
-        console.log('LOGIN response', response, response.data)
+        const response = await dispatch(loginUser(values)).unwrap()
+        localStorage.setItem('userId', JSON.stringify(response))
         auth.logIn()
-        const { from } = location.state
-        navigate(from)
+        navigate('/')
       } catch (err) {
-        formik.setSubmitting(false)
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true)
-          return
-        }
-        throw err
+        console.log('LOGIN err', err)
+        // formik.setSubmitting(false)
       }
     }
   })
@@ -72,21 +67,21 @@ const LoginPage = () => {
       <FormComponent
         formik={formik}
         handleFocus={handleFocus}
-        authFailed={authFailed}
+        error={loginError}
       >
         <InputComponent
           name={'username'}
           value={formik.values.username}
           handleChange={formik.handleChange}
           handleFocus={handleFocus}
-          isInvalid={formik.errors.username || authFailed}
+          isInvalid={formik.errors.username}
         />
         <InputComponent
           name={'password'}
           value={formik.values.password}
           handleChange={formik.handleChange}
           handleFocus={handleFocus}
-          isInvalid={formik.errors.password || authFailed}
+          isInvalid={formik.errors.password}
         />
       </FormComponent>
     </LoginComponent>

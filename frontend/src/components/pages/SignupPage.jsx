@@ -1,18 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
+import { createUser, selectors as usersSelectors } from '../../slices/usersSlice'
 import useAuth from '../../hooks'
 import Signup from '../ui/Signup'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 
 const SignupPage = () => {
-  const [authFailed, setAuthFailed] = useState(false) // изменить этот флаг на formik.isValid чтобы убрать лишний пропс
+  // const [signupFailed, setSignupFailed] = useState(null) // изменить этот флаг на formik.isValid чтобы убрать лишний пропс
   const [touched, setTouched] = useState('')
+  const signupError = useSelector(state => state.users.error)
 
+  const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
   const auth = useAuth()
@@ -23,6 +26,8 @@ const SignupPage = () => {
       navigate('/')
     }
   }, [])
+
+  // useEffect(() => console.log('SIGNUP ERROR', signupError), [signupError])
 
   const SignupSchema = Yup.object().shape({ // добавить проверку одинаковых паролей
     username: Yup.string()
@@ -47,24 +52,19 @@ const SignupPage = () => {
       confirmPassword: ''
     },
     validationSchema: SignupSchema,
-    onSubmit: async (values) => { // тут метод регисрации должен быть
-      setAuthFailed(false)
+    onSubmit: async (values) => {
+      // setSignupFailed(false)
 
       try {
-        const response = await axios.post('/api/v1/login', values)
-        localStorage.setItem('userId', JSON.stringify(response.data))
-        console.log('LOGIN response', response, response.data)
-        auth.logIn()
-        const { from } = location.state
-        navigate(from)
+        console.log('SIGN UP formik', values)
+        const response = await dispatch(createUser(values)).unwrap()
+        console.log('disp then', response)
+        navigate('/login')
       } catch (err) {
-        formik.setSubmitting(false)
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true)
-          setTouched('')
-          return
+        console.log('disp catch', err)
+        if (err.code === 'ERR_BAD_REQUEST') {
+          // setSignupFailed(err.message)
         }
-        throw err
       }
     }
   })
@@ -72,18 +72,18 @@ const SignupPage = () => {
   const handleFocus = (e) => { // очистка формы при вводе после неуспешной авторизации
     // console.log('FOCUS', e.target.name)
 
-    setTouched(e.target.name)
+    // setTouched(e.target.name)
 
-    if (authFailed) {
-      setAuthFailed(false)
-      setTouched('')
-      formik.resetForm()
+    if (signupError) {
+      // setSignupFailed(false)
+      // setTouched('')
+      // formik.resetForm()
     }
   }
 
   // TODO исправить показ ошибки только по конкретному полю и сброс формы если все значения пусты
   const handleBlur = (e) => {
-    console.log('blur', e, formik.errors, formik.touched, formik.values)
+    // console.log('blur', e, formik.errors, formik.touched, formik.values)
     // if (Object.keys(formik.errors).length === 0) {
     //   formik.resetForm()
     // } else {
@@ -92,22 +92,22 @@ const SignupPage = () => {
   }
 
   const handleChange = (e) => { // добавить отрисовку ошибки только конкретного поля
-    console.log('CHANGE', e.target.name, touched, formik.errors, Object.values(formik.values).join())
+    // console.log('CHANGE', e.target.name, formik.errors, Object.values(formik.values), Object.values(formik.values).join())
     formik.handleChange(e)
     if (Object.values(formik.values).join().length === 0) {
-      setTouched('')
-      formik.resetForm()
+      // setTouched('')
+      // formik.resetForm()
     }
   }
 
-  useEffect(() => console.log('TOUCHED', touched), [touched])
+  // useEffect(() => console.log('TOUCHED', touched), [touched])
 
   return (
     <Signup isShowFooter={false}>
       <FormComponent
         formik={formik}
         handleFocus={handleFocus}
-        authFailed={authFailed}
+        error={signupError}
       >
         <InputComponent
           name={'username'}
@@ -115,7 +115,7 @@ const SignupPage = () => {
           handleChange={(e) => handleChange(e)}
           handleFocus={handleFocus}
           handleBlur={handleBlur}
-          isInvalid={formik.errors[touched] || authFailed}
+          isInvalid={formik.errors.username}
         />
         <InputComponent
           name={'password'}
@@ -123,7 +123,7 @@ const SignupPage = () => {
           handleChange={(e) => handleChange(e)}
           handleFocus={handleFocus}
           handleBlur={handleBlur}
-          isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
+          isInvalid={formik.errors.password}
         />
         <InputComponent
           name={'confirmPassword'}
@@ -131,7 +131,7 @@ const SignupPage = () => {
           handleChange={(e) => handleChange(e)}
           handleFocus={handleFocus}
           handleBlur={handleBlur}
-          isInvalid={(formik.errors.confirmPassword & formik.touched.confirmPassword) || authFailed}
+          isInvalid={formik.errors.confirmPassword}
         />
       </FormComponent>
     </Signup>
