@@ -4,46 +4,43 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { selectors as channelsSelectors, fetchChannels } from '../../slices/channelsSlice.js'
 import { selectors as messagesSelectors, fetchMessages, addMessage } from '../../slices/messagesSlice.js'
+import { selectors as usersSelector } from '../../slices/usersSlice.js'
 
 import ChatComponent from '../ui/ChatComponent'
 import ChannelsComponent from '../ui/ChannelsComponent'
 import InputMessageComponent from '../ui/InputMessageComponent'
 import ChatWindow from '../ui/ChatWindow'
-import getModal from '../../modals.js'
+import getModal from '../modals/modals.js'
 
-// #TODO перенести сюда всю логику и сделать чат инпут и каналы глупыми компонентами
+// #TODO перенести сюда всю логику и сделать чат инпут модалку и каналы глупыми компонентами
 export default function ChatPage () {
   const dispatch = useDispatch()
   const messages = useSelector(messagesSelectors.selectAll)
   const channels = useSelector(channelsSelectors.selectAll)
+  const user = useSelector(state => state.users.currentUser)
   const [activeId, setActiveId] = useState(null)
   const [modalState, setModalState] = useState({ type: null, item: null })
 
   const hideModal = () => setModalState({ type: null, item: null })
   const showModal = (type, item = null) => setModalState({ type, item })
 
-  useEffect(() => { // загрузка сообщений и каналов при старте
+  useEffect(() => { // загрузка сообщений и каналов при старте, установка активной вкладки
     dispatch(fetchMessages())
     dispatch(fetchChannels())
-
-    // console.log('CHAT PAGE', channels)
     setActiveId(channels[0]?.id)
   }, [])
 
+  // #TODO возможно стоит убрать активную вкладку в ChatComponent
   useEffect(() => { // установка активной вкладки
-    // console.log('EFFECT', channels, activeId, Object.values(channels), channels[0]?.id)
-
-    if (!activeId && Object.values(channels).length > 0) {
-      setActiveId(channels[0].id)
+    if (!modalState.type) {
+      setActiveId(channels[channels.length - 1]?.id)
+    } else {
+      setActiveId(channels[0]?.id)
     }
-    console.log('CHAT PAGE channels updated', channels)
   }, [channels])
 
-  useEffect(() => console.log('CHAT PAGE modalState', modalState), [modalState])
-
   const handleSendMessage = (body) => { // обработка отправки сообщения
-    const newMessage = { body, channelId: activeId, username: 'admin' }
-    // console.log('SEND MESSAGE id', activeId, body)
+    const newMessage = { body, channelId: activeId, username: user.username }
     dispatch(addMessage(newMessage))
   }
 
@@ -56,11 +53,12 @@ export default function ChatPage () {
     return <Component channel={modalState.item} onHide={hideModal} />
   }
 
+  // #TODO изменить на вложенную структуру компонентов
   return (
     <>
       <ChatComponent
         handleSendMessage={handleSendMessage}
-        handleActiveTab={(id) => setActiveId(id)}
+        handleActiveTab={(id = channels[0].id) => setActiveId(id)}
         activeId={activeId}
         hideModal={hideModal}
         showModal={showModal}
