@@ -1,21 +1,17 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
-
 import { createSlice, createEntityAdapter, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import routes from '../routes'
 
-let headers = {}
-if (localStorage.getItem('userId')) {
-  const { token } = JSON.parse(localStorage.getItem('userId')) // брать из редакса, начальное состояние, отдельный слайс
-  console.log(token)
-  headers = { Authorization: `Bearer ${token}` }
+const getHeaders = () => {
+  const { token } = JSON.parse(localStorage.getItem('userId')) // ? брать из редакса, начальное состояние, отдельный слайс
+  return { headers: { Authorization: `Bearer ${token}` } }
 }
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async () => {
-    const response = await axios.get(routes.messagesPath(), { headers })
-    // console.log('fetch messages', response.data)
+    const response = await axios.get(routes.messagesPath(), getHeaders())
     return response.data // =>[{ id: '1', body: 'text message', channelId: '1', username: 'admin }, ...]
   }
 )
@@ -23,7 +19,7 @@ export const fetchMessages = createAsyncThunk(
 export const addMessage = createAsyncThunk(
   'messages/addMessage',
   async (newMessage) => {
-    const response = await axios.post(routes.messagesPath(), newMessage, { headers })
+    const response = await axios.post(routes.messagesPath(), newMessage, getHeaders())
     return response.data // { id: '1', body: 'new message', channelId: '1', username: 'admin }
   }
 )
@@ -32,7 +28,7 @@ export const editMessage = createAsyncThunk(
   'messages/editMessage',
   async ({ body, id }) => {
     const editedMessage = { body: 'new body message' }
-    const response = await axios.patch(routes.messagePath(id), editedMessage, { headers })
+    const response = await axios.patch(routes.messagePath(id), editedMessage, getHeaders())
     return response.data // => { id: '1', body: 'new body message', channelId: '1', username: 'admin }
   }
 )
@@ -41,18 +37,16 @@ export const removeMessage = createAsyncThunk(
   'messages/removeMessage',
   async ({ id }) => {
     const editedMessage = { body: 'new body message' }
-    const response = await axios.delete(routes.messagePath(id), editedMessage, { headers })
+    const response = await axios.delete(routes.messagePath(id), editedMessage, getHeaders())
     return response.data // => { id: '3' }
   }
 )
 
 export const messagesOfChannelSelector = (channelId) => createSelector(
   [(state) => {
-    // console.log(state)
     return state.messages
   }],
   (state) => {
-    // console.log('IN SELECTOR', Object.values(state.entities))
     return Object.values(state.entities).filter((message) => message.channelId === channelId)
   }
 )
@@ -67,16 +61,15 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
-        // console.log('FETCH MESSAGES', action)
         messagesAdapter.addMany(state, action.payload)
       })
       .addCase(addMessage.fulfilled, (state, action) => {
         messagesAdapter.addOne(state, action.payload)
       })
       .addCase(editMessage.fulfilled, (state, action) => {
-        messagesAdapter.addOne(state, action.payload) // изменить одну сущность
+        messagesAdapter.updateOne(state, action.payload) // изменить одну сущность
       })
-      .addCase(removeMessage.fulfilled, (state, action) => { // filter entities
+      .addCase(removeMessage.fulfilled, (state, action) => { // #TODO изменить, возможно фильтрация и запись всего
         messagesAdapter.removeOne(state, action.payload)
       })
   }
