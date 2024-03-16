@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,9 +9,10 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-dom'
-import axios from 'axios'
-import PropTypes from 'prop-types'
 import { Button, Navbar, Nav } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { logoutUser, setCurrentUser } from '../slices/usersSlice.js'
+import PropTypes from 'prop-types'
 
 import useAuth from '../hooks/index.jsx'
 import AuthContext from '../contexts/index.jsx'
@@ -24,11 +25,18 @@ import HeaderComponent from './ui/HeaderComponent.jsx'
 
 const AuthProvider = ({ children }) => {
   const initialLogged = localStorage.getItem('userId') !== null
+  const user = JSON.parse(localStorage.getItem('userId'))
   const [loggedIn, setLoggedIn] = useState(initialLogged)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(setCurrentUser(user))
+  }, [])
 
   const logIn = () => setLoggedIn(true)
   const logOut = () => {
     localStorage.removeItem('userId')
+    dispatch(logoutUser())
     setLoggedIn(false)
   }
 

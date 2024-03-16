@@ -1,10 +1,8 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
-
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit'
 import routes from '../routes'
 
-// #TODO переделать в логине отправку и получание токена и запись его в стор
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async ({ username, password }) => {
@@ -31,12 +29,14 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    logoutUser (state, action) {
-      usersAdapter.removeOne(state, action.payload)
+    logoutUser (state) {
       state.currentUser = null
     },
     setCurrentChannel (state, action) {
-      usersAdapter.updateOne(state, { id: action.payload.id, changes: action.payload })
+      state.currentUser = { ...state.currentUser, currentChannel: action.payload }
+    },
+    setCurrentUser (state, action) {
+      state.currentUser = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -46,7 +46,6 @@ const usersSlice = createSlice({
         state.error = null
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        usersAdapter.addOne(state, action.payload)
         state.currentUser = action.payload
         state.loadingStatus = 'idle'
         state.error = null
@@ -70,6 +69,6 @@ const usersSlice = createSlice({
   }
 })
 
-export const { actions } = usersSlice
+export const { logoutUser, setCurrentChannel, setCurrentUser } = usersSlice.actions
 export const selectors = usersAdapter.getSelectors((state) => state.users)
 export default usersSlice.reducer
