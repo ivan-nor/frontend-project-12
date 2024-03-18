@@ -1,20 +1,22 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from 'react-redux'
 import { messagesOfChannelSelector } from '../../slices/messagesSlice'
+import { Container } from 'react-bootstrap'
 
-const ChatWindow = ({ channel }) => {
-  const { id, name } = channel
-  const messages = useSelector(messagesOfChannelSelector(id))
+const ChatWindow = ({ activeId, currentChannel: channel }) => {
+  const messages = useSelector(messagesOfChannelSelector(activeId))
 
   return (
-    <>
-      <h1>CHAT WINDOW {id} {name}</h1>
-      <ul>
-        {messages?.map((message) => (
-          <li key={message.id}>USER: {message.username} | MESSAGE: {message.body}</li>
-        ))}
-      </ul>
-    </>
+    <Container>
+      <h1>CHAT WINDOW {channel?.id} {channel?.name}</h1>
+      <div className='overflow-scroll'>
+        <ul>
+          {messages?.map((message) => (
+            <li key={message.id}>USER: {message.username} | MESSAGE: {message.body}</li>
+          ))}
+        </ul>
+      </div>
+    </Container>
   )
 }
 
