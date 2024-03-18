@@ -3,21 +3,25 @@ import { useEffect, useRef } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { editChannel } from '../../slices/channelsSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { editChannel, selectors } from '../../slices/channelsSlice'
 
 const Rename = (props) => {
   const { onHide, channel } = props
   const dispatch = useDispatch()
   const inputRef = useRef()
+  const channels = useSelector(selectors.selectAll)
 
   useEffect(() => {
     inputRef.current.select()
   }, [])
 
+  useEffect(() => console.log(channels), [channels])
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(1, 'Минимум 1 буква')
+      .notOneOf(channels.map(({ name }) => name))
+      .min(2, 'Минимум 2 буквы')
       .max(20, 'Максимум 20 букв')
       .required('Обязательное поле')
   })
@@ -50,6 +54,7 @@ const Rename = (props) => {
               value={f.values.name}
               data-testid="input-name"
               name="name"
+              isInvalid={f.errors.name}
             />
             <FormControl type="submit" className="btn btn-primary mt-2" value="submit" />
           </FormGroup>
