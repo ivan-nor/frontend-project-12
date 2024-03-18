@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { createSlice, createEntityAdapter, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import routes from '../routes'
+import { removeChannel } from './channelsSlice'
 
 const getHeaders = () => {
   const { token } = JSON.parse(localStorage.getItem('userId')) // ? брать из редакса, начальное состояние, отдельный слайс
@@ -24,24 +25,6 @@ export const addMessage = createAsyncThunk(
   }
 )
 
-export const editMessage = createAsyncThunk(
-  'messages/editMessage',
-  async ({ body, id }) => {
-    const editedMessage = { body: 'new body message' }
-    const response = await axios.patch(routes.messagePath(id), editedMessage, getHeaders())
-    return response.data // => { id: '1', body: 'new body message', channelId: '1', username: 'admin }
-  }
-)
-
-export const removeMessage = createAsyncThunk(
-  'messages/removeMessage',
-  async ({ id }) => {
-    const editedMessage = { body: 'new body message' }
-    const response = await axios.delete(routes.messagePath(id), editedMessage, getHeaders())
-    return response.data // => { id: '3' }
-  }
-)
-
 export const messagesOfChannelSelector = (channelId) => createSelector(
   [(state) => {
     return state.messages
@@ -60,17 +43,17 @@ const messagesSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
+      .addCase(removeChannel.fulfilled, (state, action) => {
+        const channelId = action.payload
+        const restEntities = Object.values(state.entities).filter((e) => e.channelIdId !== channelId)
+        console.log('remove channel in mess slice', action.payload, restEntities)
+        messagesAdapter.setAll(state, restEntities)
+      })
       .addCase(fetchMessages.fulfilled, (state, action) => {
         messagesAdapter.addMany(state, action.payload)
       })
       .addCase(addMessage.fulfilled, (state, action) => {
         messagesAdapter.addOne(state, action.payload)
-      })
-      .addCase(editMessage.fulfilled, (state, action) => {
-        messagesAdapter.updateOne(state, action.payload) // изменить одну сущность
-      })
-      .addCase(removeMessage.fulfilled, (state, action) => { // #TODO изменить, возможно фильтрация и запись всего
-        messagesAdapter.removeOne(state, action.payload)
       })
   }
 })
