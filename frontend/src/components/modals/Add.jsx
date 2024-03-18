@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
-import { Modal, FormGroup, FormControl } from 'react-bootstrap'
+import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
 import { useEffect, useRef } from 'react'
 import { addChannel } from '../../slices/channelsSlice'
 
@@ -24,13 +24,13 @@ const Add = (props) => {
   })
 
   return (
-    <Modal show>
+    <Modal show onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>Add</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={f.handleSubmit}>
+        <Form onSubmit={f.handleSubmit}>
           <FormGroup>
             <FormControl
               required
@@ -43,7 +43,7 @@ const Add = (props) => {
             />
           </FormGroup>
           <input type="submit" className="btn btn-primary mt-2" value="submit" />
-        </form>
+        </Form>
       </Modal.Body>
     </Modal>
   )
