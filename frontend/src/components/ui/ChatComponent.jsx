@@ -13,7 +13,7 @@ const ChatComponent = ({
   hideModal,
   currentChannel
 }) => (
-  <Container fluid={'xl'} className='p-2' bg='light' style={{ 'max-height': '1000px' }}>
+  <Container fluid={'xl'} className='p-2' bg='light' style={{ maxHeight: '1000px' }}>
     <Card body className='p-2' bg='light'>
         <Row>
           <Col sm={3} className=''>

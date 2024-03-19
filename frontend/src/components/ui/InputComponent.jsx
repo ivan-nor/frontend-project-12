@@ -1,27 +1,38 @@
 /* eslint-disable react/prop-types */
-// import React from 'react'
-import { Form, FloatingLabel } from 'react-bootstrap'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Form, Row, Col } from 'react-bootstrap'
 
-const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, handleBlur }) => (
-  <FloatingLabel htmlFor={name} className='mb-3'>
-    <Form.Control
-      onFocus={handleFocus}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      isInvalid={isInvalid}
+const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, handleBlur }) => {
+  const { t } = useTranslation()
 
-      // type={name.toLowerCase().includes('password') ? 'password' : 'text'} // тип поля чтобы скрывать ввод пароля, на будущее
-      className='d-block'
-      value={value}
-      placeholder={name}
-      name={name}
-      id={name}
+  useEffect(() => console.table(name, value, isInvalid), [isInvalid])
 
-      autoComplete={name}
-      required
-    />
-  </FloatingLabel>
-)
+  return (
+    <Row className='mb-3'>
+      <Form.Group as={Col} className="position-relative">
+        <Form.Label>{t(`label.${name}`)}</Form.Label>
+        <Form.Control
+          onFocus={handleFocus}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          isInvalid={isInvalid}
+
+          // type={name.toLowerCase().includes('password') ? 'password' : 'text'} // тип поля чтобы скрывать ввод пароля, на будущее
+          className='d-block'
+          value={value}
+          placeholder={t(`label.${name}`)}
+          name={name}
+          id={name}
+
+          autoComplete={name}
+          required
+        />
+        <Form.Control.Feedback tooltip type='invalid'>{t(`errors.${name}`)}</Form.Control.Feedback>
+      </Form.Group>
+    </Row>
+  )
+}
 
 // TODO: доработать ваоидацию пропсов
 

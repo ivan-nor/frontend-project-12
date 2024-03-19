@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { editChannel, selectors } from '../../slices/channelsSlice'
 
-const Rename = (props) => {
-  const { onHide, channel } = props
+// #TODO добавить показ ошибки в форме
+const Rename = ({ onHide, channel }) => {
   const dispatch = useDispatch()
   const inputRef = useRef()
   const channels = useSelector(selectors.selectAll)
+  const { t } = useTranslation()
 
   useEffect(() => {
     inputRef.current.select()
@@ -21,7 +23,7 @@ const Rename = (props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .notOneOf(channels.map(({ name }) => name))
-      .min(2, 'Минимум 2 буквы')
+      .min(2, 'Минимум 2 буквы') // #TODO изменить тексты, добавлять их из i18next
       .max(20, 'Максимум 20 букв')
       .required('Обязательное поле')
   })
@@ -31,7 +33,7 @@ const Rename = (props) => {
       dispatch(editChannel({ name: values.name, id: channel.id }))
       onHide()
     },
-    validationSchema, // #TODO добавить валидацию имен канала (не повторяются)
+    validationSchema,
     initialValues: {
       name: channel.name
     }
@@ -40,7 +42,7 @@ const Rename = (props) => {
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Rename</Modal.Title>
+        <Modal.Title>{t('modal.rename.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -55,8 +57,9 @@ const Rename = (props) => {
               data-testid="input-name"
               name="name"
               isInvalid={f.errors.name}
+              placeholder={t('modal.rename.placeholder')}
             />
-            <FormControl type="submit" className="btn btn-primary mt-2" value="submit" />
+            <FormControl type="submit" className="btn btn-primary mt-2" value={t('modal.rename.submit')} />
           </FormGroup>
         </Form>
       </Modal.Body>

@@ -2,17 +2,19 @@
 import { useSelector } from 'react-redux'
 import { messagesOfChannelSelector } from '../../slices/messagesSlice'
 import { Container } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 const ChatWindow = ({ activeId, currentChannel: channel }) => {
   const messages = useSelector(messagesOfChannelSelector(activeId))
+  const { t } = useTranslation()
 
   return (
     <Container>
-      <h1>CHAT WINDOW {channel?.id} {channel?.name}</h1>
+      <h1>{t('chat.title')} {channel?.id} {channel?.name}</h1>
       <div className='overflow-scroll'>
         <ul>
           {messages?.map((message) => (
-            <li key={message.id}>USER: {message.username} | MESSAGE: {message.body}</li>
+            <li key={message.id}>{t('chat.user')}: {message.username} | MESSAGE: {message.body}</li>
           ))}
         </ul>
       </div>

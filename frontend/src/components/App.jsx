@@ -11,9 +11,10 @@ import {
 } from 'react-router-dom'
 import { Button, Navbar, Nav } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
-import { logoutUser, setCurrentUser } from '../slices/usersSlice.js'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
+import { logoutUser, setCurrentUser } from '../slices/usersSlice.js'
 import useAuth from '../hooks/index.jsx'
 import AuthContext from '../contexts/index.jsx'
 
@@ -24,10 +25,10 @@ import ChatPage from './pages/ChatPage.jsx'
 import HeaderComponent from './ui/HeaderComponent.jsx'
 
 const AuthProvider = ({ children }) => {
+  const dispatch = useDispatch()
   const initialLogged = localStorage.getItem('userId') !== null
   const user = JSON.parse(localStorage.getItem('userId'))
   const [loggedIn, setLoggedIn] = useState(initialLogged)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(setCurrentUser(user))
@@ -58,13 +59,18 @@ const PrivateRoute = ({ children }) => {
 
 function App () {
   const AuthButton = () => {
+    const { t } = useTranslation()
     const auth = useAuth()
     const location = useLocation()
 
     return (
       auth.loggedIn
-        ? <Button onClick={auth.logOut}>Log out</Button>
-        : <Button as={Link} to="/login" state={{ from: location }}>Log in</Button>
+        ? <Button onClick={auth.logOut}>
+            {t('authButton.logout')}
+          </Button>
+        : <Button as={Link} to="/login" state={{ from: location }}>
+            {t('authButton.login')}
+          </Button>
     )
   }
 

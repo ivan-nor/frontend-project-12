@@ -5,9 +5,11 @@ import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { addChannel, selectors } from '../../slices/channelsSlice'
+import { useTranslation } from 'react-i18next'
 
-const Add = (props) => {
-  const { onHide } = props
+// #TODO добавить показ ошибки в форме
+const Add = ({ onHide }) => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const inputRef = useRef()
   const channels = useSelector(selectors.selectAll)
@@ -17,7 +19,7 @@ const Add = (props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .notOneOf(channels.map(({ name }) => name))
-      .min(2, 'Минимум 2 буквы')
+      .min(2, 'Минимум 2 буквы') // #TODO ошибки должны заполняться текстами
       .max(20, 'Максимум 20 букв')
       .required('Обязательное поле')
   })
@@ -37,7 +39,7 @@ const Add = (props) => {
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Add</Modal.Title>
+        <Modal.Title>{t('modal.add.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -52,9 +54,10 @@ const Add = (props) => {
               data-testid="input-name"
               name="name"
               isInvalid={f.errors.name}
+              placeholder={t('modal.add.placeholder')}
             />
           </FormGroup>
-          <input type="submit" className="btn btn-primary mt-2" value="submit" disabled={f.errors.name}/>
+          <input type="submit" className="btn btn-primary mt-2" value={t('modal.add.submit')} disabled={f.errors.name}/>
         </Form>
       </Modal.Body>
     </Modal>

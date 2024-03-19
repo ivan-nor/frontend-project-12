@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import { ListGroup, Col, Button, Dropdown } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 const getChannelName = ({ removable, name }) => removable ? name : `# ${name}`
 
 const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
+  const { t } = useTranslation()
+
   const handleRenameChannel = (channel) => {
     showModal('renaming', channel)
     setActiveId(channel.id)
@@ -16,8 +19,8 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
 
   return (
     <>
-      <h3>CHANNELS</h3>
-      <Button variant='info' onClick={() => showModal('adding')}> + </Button>
+      <h3>{t('channels.title')}</h3>
+      <Button variant='info' onClick={() => showModal('adding')}>{t('channels.add')}</Button>
       <ListGroup variant="flush" className='gap-2'>
         {channels.map((channel) => (
           <Col key={channel.id}>
@@ -33,10 +36,10 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
               {getChannelName(channel)}
               { channel.removable && (
                 <Dropdown>
-                  <Dropdown.Toggle id="dropdown-basic-button" variant='ligth' title='' className='py-0 border-0' />
+                  <Dropdown.Toggle id="dropdown-basic-button" title='' className='py-0 border-0' />
                   <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => handleRenameChannel(channel)}>Переименовать</Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleRemoveChannel(channel)}>Удалить</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRenameChannel(channel)}>{t('channels.rename')}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRemoveChannel(channel)}>{t('channels.remove')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               )}
