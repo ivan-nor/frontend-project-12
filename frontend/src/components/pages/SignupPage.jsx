@@ -6,12 +6,12 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { createUser, selectors as usersSelectors } from '../../slices/usersSlice'
 import useAuth from '../../hooks'
-import Signup from '../ui/Signup'
+import AuthForm from '../ui/AuthForm'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 
 const SignupPage = () => {
-  // const [signupFailed, setSignupFailed] = useState(null) // изменить этот флаг на formik.isValid чтобы убрать лишний пропс
+  // const [signupFailed, setSignupFailed] = useState(null) // #TODO изменить этот флаг на formik.isValid чтобы убрать лишний пропс
   const [touched, setTouched] = useState('')
   const signupError = useSelector(state => state.users.error)
 
@@ -39,8 +39,6 @@ const SignupPage = () => {
       .max(10, 'Максимум 10 букв')
       .required('Обязательное поле'),
     confirmPassword: Yup.string()
-      .min(2, 'Минимум 2 буквы')
-      .max(10, 'Максимум 10 букв')
       .required('Please re-type your password')
       .oneOf([Yup.ref('password')], 'Passwords do not match')
   })
@@ -103,11 +101,12 @@ const SignupPage = () => {
   // useEffect(() => console.log('TOUCHED', touched), [touched])
 
   return (
-    <Signup isShowFooter={false}>
+    <AuthForm isShowFooter={false} name={'signup'}>
       <FormComponent
         formik={formik}
         handleFocus={handleFocus}
         error={signupError}
+        name={'signup'}
       >
         <InputComponent
           name={'username'}
@@ -134,7 +133,7 @@ const SignupPage = () => {
           isInvalid={formik.errors.confirmPassword}
         />
       </FormComponent>
-    </Signup>
+    </AuthForm>
   )
 }
 

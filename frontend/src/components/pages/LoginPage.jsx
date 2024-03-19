@@ -6,7 +6,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import useAuth from '../../hooks'
 import { loginUser } from '../../slices/usersSlice'
-import LoginComponent from '../ui/LoginComponent'
+import AuthForm from '../ui/AuthForm'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 
@@ -23,7 +23,7 @@ const LoginPage = () => {
     }
   }, [])
 
-  const SignupSchema = Yup.object().shape({
+  const loginSchema = Yup.object().shape({
     username: Yup.string()
       .min(2, 'Минимум 2 буквы')
       .max(10, 'Максимум 10 букв')
@@ -39,7 +39,7 @@ const LoginPage = () => {
       username: '',
       password: ''
     },
-    validationSchema: SignupSchema,
+    validationSchema: loginSchema,
     onSubmit: async (values) => {
       setAuthFailed(false)
 
@@ -63,11 +63,12 @@ const LoginPage = () => {
   }
 
   return (
-    <LoginComponent>
+    <AuthForm name={'login'} isShowFooter={false}>
       <FormComponent
         formik={formik}
         handleFocus={handleFocus}
         error={loginError}
+        name={'login'}
       >
         <InputComponent
           name={'username'}
@@ -84,7 +85,7 @@ const LoginPage = () => {
           isInvalid={formik.errors.password}
         />
       </FormComponent>
-    </LoginComponent>
+    </AuthForm>
   )
 }
 
