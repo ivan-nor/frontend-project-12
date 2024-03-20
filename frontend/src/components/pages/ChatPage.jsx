@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { selectors as channelsSelectors, fetchChannels } from '../../slices/channelsSlice.js'
 import { selectors as messagesSelectors, fetchMessages, addMessage } from '../../slices/messagesSlice.js'
+import { initSocket } from '../../slices/socketSlice.js'
 
 import ChatComponent from '../ui/ChatComponent'
 import getModal from '../modals/modals.js'
@@ -26,6 +27,8 @@ export default function ChatPage () {
     dispatch(fetchChannels())
     setActiveId(channels[0]?.id)
     // setCurrentChannel(channels[0])
+    console.log('Chat page init socekt')
+    dispatch(initSocket())
   }, [])
 
   useEffect(() => { // #TODO Доработать установку активной вкладки
@@ -42,9 +45,14 @@ export default function ChatPage () {
   //   // setCurrentChannel(currentChannel)
   // }, [activeId])
 
-  const handleSendMessage = (body) => {
+  const handleSendMessage = async (body) => {
     const newMessage = { body, channelId: activeId, username: user.username }
-    dispatch(addMessage(newMessage))
+    try {
+      const response = dispatch(addMessage(newMessage)).unwrap()
+      console.info('ChatPage success addMesage', response)
+    } catch (err) {
+      console.err(err)
+    }
   }
 
   const renderModal = (modalState, hideModal) => {

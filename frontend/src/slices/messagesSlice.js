@@ -41,6 +41,9 @@ const initialState = messagesAdapter.getInitialState()
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
+  reducers: {
+    setMessageSync: messagesAdapter.addOne
+  },
   extraReducers: (builder) => {
     builder
       .addCase(removeChannel.fulfilled, (state, action) => {
@@ -58,7 +61,7 @@ const messagesSlice = createSlice({
   }
 })
 
-export const { actions } = messagesSlice
+export const { setMessageSync } = messagesSlice.actions
 export const selectors = messagesAdapter.getSelectors((state) => state.messages)
 export default messagesSlice.reducer
 // END
