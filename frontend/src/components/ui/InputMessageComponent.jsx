@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Form, Button, InputGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+import filter from 'leo-profanity'
 
 const InputMessageComponent = ({ handleSendMessage }) => {
   const { t } = useTranslation()
@@ -12,7 +13,9 @@ const InputMessageComponent = ({ handleSendMessage }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (value !== '') {
-      handleSendMessage(value)
+      const filtered = filter.clean(value)
+      console.log(filtered)
+      handleSendMessage(filtered)
       setValue('')
     }
   }

@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import filter from 'leo-profanity'
 import { addChannel, selectors } from '../../slices/channelsSlice'
 
 // #TODO добавить показ ошибки в форме
@@ -31,8 +32,9 @@ const Add = ({ onHide }) => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      const filteredName = filter.clean(values.name)
       await toast.promise(
-        dispatch(addChannel({ name: values.name })).unwrap(),
+        dispatch(addChannel({ name: filteredName })).unwrap(),
         {
           pending: `${t('messages.info')}`,
           success: `${t('messages.success.channelAdded')}`,

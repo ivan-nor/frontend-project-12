@@ -6,6 +6,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import filter from 'leo-profanity'
 import { editChannel, selectors } from '../../slices/channelsSlice'
 
 // #TODO добавить показ ошибки в форме
@@ -31,8 +32,10 @@ const Rename = ({ onHide, channel }) => {
 
   const f = useFormik({
     onSubmit: async (values) => {
+      const filteredName = filter.clean(values.name)
+
       await toast.promise(
-        dispatch(editChannel({ name: values.name, id: channel.id })).unwrap(),
+        dispatch(editChannel({ name: filteredName, id: channel.id })).unwrap(),
         {
           pending: `${t('messages.info')}`,
           success: `${t('messages.success.channelRenamed')}`,

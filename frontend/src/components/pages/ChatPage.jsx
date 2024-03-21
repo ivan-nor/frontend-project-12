@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import filter from 'leo-profanity'
 
 import { selectors as channelsSelectors, fetchChannels } from '../../slices/channelsSlice.js'
 import { selectors as messagesSelectors, fetchMessages, addMessage } from '../../slices/messagesSlice.js'
@@ -27,8 +28,8 @@ export default function ChatPage () {
     dispatch(fetchChannels())
     setActiveId(channels[0]?.id)
     // setCurrentChannel(channels[0])
-    console.log('Chat page init socekt')
     dispatch(initSocket())
+    filter.loadDictionary('ru')
   }, [])
 
   useEffect(() => { // #TODO Доработать установку активной вкладки
