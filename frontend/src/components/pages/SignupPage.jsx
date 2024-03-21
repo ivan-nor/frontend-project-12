@@ -43,7 +43,7 @@ const SignupPage = () => {
       .required('Обязательное поле'),
     confirmPassword: Yup.string()
       .required('Please re-type your password')
-      .oneOf([Yup.ref('password')], 'Passwords do not match')
+      .oneOf([Yup.ref('password')], 'Пароли должны совпадать')
   })
 
   const formik = useFormik({
@@ -115,6 +115,7 @@ const SignupPage = () => {
       >
         <InputComponent
           name={'username'}
+          type={'signup'}
           value={formik.values.username}
           handleChange={(e) => handleChange(e)}
           handleFocus={handleFocus}
@@ -123,6 +124,7 @@ const SignupPage = () => {
         />
         <InputComponent
           name={'password'}
+          type={'signup'}
           value={formik.values.password}
           handleChange={(e) => handleChange(e)}
           handleFocus={handleFocus}
@@ -131,6 +133,7 @@ const SignupPage = () => {
         />
         <InputComponent
           name={'confirmPassword'}
+          type={'signup'}
           value={formik.values.confirmPassword}
           handleChange={(e) => handleChange(e)}
           handleFocus={handleFocus}

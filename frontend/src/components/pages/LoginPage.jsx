@@ -83,6 +83,7 @@ const LoginPage = () => {
       >
         <InputComponent
           name={'username'}
+          type={'login'}
           value={formik.values.username}
           handleChange={formik.handleChange}
           handleFocus={handleFocus}
@@ -90,6 +91,7 @@ const LoginPage = () => {
         />
         <InputComponent
           name={'password'}
+          type={'login'}
           value={formik.values.password}
           handleChange={formik.handleChange}
           handleFocus={handleFocus}

@@ -1,11 +1,8 @@
 export default {
   translation: {
-    label: {
-      username: 'Имя пользователя',
-      password: 'Пароль',
-      confirmPassword: 'Подтвердите пароль'
-    },
     login: {
+      username: 'Ваш ник',
+      password: 'Пароль',
       title: 'Авторизация',
       submit: 'Войти',
       footer: {
@@ -15,6 +12,9 @@ export default {
       }
     },
     signup: {
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      confirmPassword: 'Подтвердите пароль',
       title: 'Регистрация',
       submit: 'Зарегистрироваться'
     },
@@ -45,9 +45,9 @@ export default {
     },
     messages: {
       errors: {
-        network: 'Ошибка сети',
+        network: 'Ошибка соединения',
         signup: 'Пользователь с указанным именем существует',
-        login: 'Неправильное имя пользователи или пароль',
+        login: 'Неверные имя пользователя или пароль',
         username: 'Имя пользователя должно содержать от 2 до 10 символов',
         password: 'Пароль должен содержать от 2 до 10 символов',
         confirmPassword: 'Пароли не совпадают',
@@ -57,9 +57,9 @@ export default {
       success: {
         login: 'Вход успешно выполнен',
         signup: 'Пользоваль зарегистрирован',
-        channelAdded: 'Канал добавлен',
+        channelAdded: 'Канал создан',
         channelRenamed: 'Канал переименован',
-        channelRemoved: 'Канал удален'
+        channelRemoved: 'Канал удалён'
       },
       info: 'Ожидание ответа'
     },
