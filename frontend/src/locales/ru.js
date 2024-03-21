@@ -1,11 +1,8 @@
 export default {
   translation: {
-    label: {
-      username: 'Имя пользователя',
-      password: 'Пароль',
-      confirmPassword: 'Подтвердите пароль'
-    },
     login: {
+      username: 'Ваш ник',
+      password: 'Пароль',
       title: 'Авторизация',
       submit: 'Войти',
       footer: {
@@ -15,6 +12,9 @@ export default {
       }
     },
     signup: {
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      confirmPassword: 'Подтвердите пароль',
       title: 'Регистрация',
       submit: 'Зарегистрироваться'
     },
@@ -43,15 +43,25 @@ export default {
       },
       label: 'Имя канала'
     },
-    errors: {
-      network: 'Ошибка сети',
-      signup: 'Пользователь с указанным именем существует',
-      login: 'Неправильное имя пользователи или пароль',
-      username: 'Имя пользователя должно содержать от 2 до 10 символов',
-      password: 'Пароль должен содержать от 2 до 10 символов',
-      confirmPassword: 'Пароли не совпадают',
-      channelName: 'Канал уже существует',
-      errorPage: 'Запрашиваемой страницы не существует'
+    messages: {
+      errors: {
+        network: 'Ошибка соединения',
+        signup: 'Такой пользователь уже существует',
+        login: 'Неверные имя пользователя или пароль',
+        username: 'Имя пользователя должно содержать от 2 до 10 символов',
+        password: 'От 3 до 20 символов',
+        confirmPassword: 'Пароли не совпадают',
+        channelName: 'Канал уже существует',
+        errorPage: 'Запрашиваемой страницы не существует'
+      },
+      success: {
+        login: 'Вход успешно выполнен',
+        signup: 'Пользоваль зарегистрирован',
+        channelAdded: 'Канал создан',
+        channelRenamed: 'Канал переименован',
+        channelRemoved: 'Канал удалён'
+      },
+      info: 'Ожидание ответа'
     },
     channels: {
       title: 'Каналы',

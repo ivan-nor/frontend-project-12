@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { toast, ToastContainer } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import useAuth from '../../hooks'
 import { loginUser } from '../../slices/usersSlice'
 import AuthForm from '../ui/AuthForm'
@@ -14,6 +16,7 @@ const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false) // #TODO изменить этот флаг на formik.isValid чтобы убрать лишний пропс
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const auth = useAuth()
   const loginError = useSelector(state => state.users.error)
 
@@ -44,7 +47,15 @@ const LoginPage = () => {
       setAuthFailed(false)
 
       try {
-        const response = await dispatch(loginUser(values)).unwrap()
+        const response = await toast.promise(
+          dispatch(loginUser(values)).unwrap(),
+          {
+            pending: `${t('messages.info')}`,
+            success: `${t('messages.success.login')}`,
+            error: `${t('messages.errors.login')}`
+          }
+        )
+
         localStorage.setItem('userId', JSON.stringify(response))
         auth.logIn()
         navigate('/')
@@ -72,6 +83,7 @@ const LoginPage = () => {
       >
         <InputComponent
           name={'username'}
+          type={'login'}
           value={formik.values.username}
           handleChange={formik.handleChange}
           handleFocus={handleFocus}
@@ -79,6 +91,7 @@ const LoginPage = () => {
         />
         <InputComponent
           name={'password'}
+          type={'login'}
           value={formik.values.password}
           handleChange={formik.handleChange}
           handleFocus={handleFocus}

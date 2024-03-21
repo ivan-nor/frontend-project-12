@@ -17,7 +17,7 @@ build:
 	cd frontend && npm run build
 
 start:
-	make start-backend & make start-frontend
+	npm run start
 
 start-deploy:
 	npm run start
