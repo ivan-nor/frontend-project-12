@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Row, Col } from 'react-bootstrap'
 
 const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, handleBlur }) => {
   const { t } = useTranslation()
-
-  useEffect(() => console.table(name, value, isInvalid), [isInvalid])
 
   return (
     <Row className='mb-3'>
@@ -28,7 +25,7 @@ const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, han
           autoComplete={name}
           required
         />
-        <Form.Control.Feedback tooltip type='invalid'>{t(`errors.${name}`)}</Form.Control.Feedback>
+        <Form.Control.Feedback tooltip type='invalid'>{t(`messages.errors.${name}`)}</Form.Control.Feedback>
       </Form.Group>
     </Row>
   )
