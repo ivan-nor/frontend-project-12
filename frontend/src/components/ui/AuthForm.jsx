@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Image } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import getImages from '../../assets/images/images'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 const AuthForm = ({ name, children }) => {
   const { t } = useTranslation()
