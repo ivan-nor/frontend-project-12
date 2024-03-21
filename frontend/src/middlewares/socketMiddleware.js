@@ -1,19 +1,36 @@
-import SocketFactory from './SocketFactory'
+import { io } from 'socket.io-client'
 import { connectionEstablished, initSocket, connectionLost } from '../slices/socketSlice'
 import { setMessageSync } from '../slices/messagesSlice'
 import { addChannelSync, renameChannelSync, removeChannelSync } from '../slices/channelsSlice'
+
+class SocketConnection {
+  constructor () {
+    this.socket = io()
+  }
+}
+
+let socketConnection
+
+class SocketFactory {
+  static create () {
+    if (!socketConnection) {
+      socketConnection = new SocketConnection()
+    }
+    return socketConnection
+  }
+}
 
 const socketMiddleware = (store) => {
   let socket
 
   return (next) => (action) => {
-    // console.table('MIDDLSW', action, initSocket.match(action), setMessageSync.match(action))
+    console.table('MIDDLSW', action, initSocket.match(action), setMessageSync.match(action))
 
     if (initSocket.match(action)) {
       if (!socket && typeof window !== 'undefined') {
         socket = SocketFactory.create()
 
-        // console.log(socket.socket)
+        console.log(socket.socket)
 
         socket.socket.on('connect', () => {
           store.dispatch(connectionEstablished())
