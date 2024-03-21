@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
 
 import { logoutUser, setCurrentUser } from '../slices/usersSlice.js'
 import useAuth from '../hooks/index.jsx'
@@ -59,6 +60,11 @@ const PrivateRoute = ({ children }) => {
   )
 }
 
+const rollbarConfig = {
+  accessToken: 'f4c2880dcaa84c9fa001ff2345974d9b',
+  environment: 'testenv'
+}
+
 function App () {
   const AuthButton = () => {
     const { t } = useTranslation()
@@ -77,29 +83,33 @@ function App () {
   }
 
   return (
-    <AuthProvider>
-      <Router>
-        <HeaderComponent link={Link} route={'/'} >
-          <AuthButton />
-        </HeaderComponent>
+    <RollbarProvider config={rollbarConfig} >
+      <ErrorBoundary>
+        <AuthProvider>
+          <Router>
+            <HeaderComponent link={Link} route={'/'} >
+              <AuthButton />
+            </HeaderComponent>
 
-        <ToastContainer autoClose={2000} theme='colored' position='bottom-right' />
+            <ToastContainer autoClose={2000} theme='colored' position='bottom-right' />
 
-        <Routes>
-          <Route
-            path="/"
-            element={(
-              <PrivateRoute>
-                <ChatPage />
-              </PrivateRoute>
-            )}
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={(
+                  <PrivateRoute>
+                    <ChatPage />
+                  </PrivateRoute>
+                )}
+              />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </Router>
+        </AuthProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
   )
 }
 
