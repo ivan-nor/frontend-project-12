@@ -13,6 +13,8 @@ import { Button, Navbar, Nav } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { logoutUser, setCurrentUser } from '../slices/usersSlice.js'
 import useAuth from '../hooks/index.jsx'
@@ -80,6 +82,8 @@ function App () {
         <HeaderComponent link={Link} route={'/'} >
           <AuthButton />
         </HeaderComponent>
+
+        <ToastContainer autoClose={2000} theme='colored' position='bottom-right' />
 
         <Routes>
           <Route

@@ -5,6 +5,7 @@ import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import { editChannel, selectors } from '../../slices/channelsSlice'
 
 // #TODO добавить показ ошибки в форме
@@ -29,8 +30,16 @@ const Rename = ({ onHide, channel }) => {
   })
 
   const f = useFormik({
-    onSubmit: (values) => {
-      dispatch(editChannel({ name: values.name, id: channel.id }))
+    onSubmit: async (values) => {
+      await toast.promise(
+        dispatch(editChannel({ name: values.name, id: channel.id })).unwrap(),
+        {
+          pending: `${t('messages.info')}`,
+          success: `${t('messages.success.channelRenamed')}`,
+          error: `${t('messages.errors.channelName')}`
+        }
+      )
+
       onHide()
     },
     validationSchema,

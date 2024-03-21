@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { addChannel, selectors } from '../../slices/channelsSlice'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { addChannel, selectors } from '../../slices/channelsSlice'
 
 // #TODO добавить показ ошибки в форме
 const Add = ({ onHide }) => {
@@ -29,8 +30,15 @@ const Add = ({ onHide }) => {
       name: ''
     },
     validationSchema,
-    onSubmit: (values) => {
-      dispatch(addChannel({ name: values.name }))
+    onSubmit: async (values) => {
+      await toast.promise(
+        dispatch(addChannel({ name: values.name })).unwrap(),
+        {
+          pending: `${t('messages.info')}`,
+          success: `${t('messages.success.channelAdded')}`,
+          error: `${t('messages.errors.channelName')}`
+        }
+      )
       onHide()
       f.resetForm()
     }

@@ -4,11 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { toast } from 'react-toastify'
 import { createUser, selectors as usersSelectors } from '../../slices/usersSlice'
 import useAuth from '../../hooks'
 import AuthForm from '../ui/AuthForm'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
+import { useTranslation } from 'react-i18next'
 
 const SignupPage = () => {
   // const [signupFailed, setSignupFailed] = useState(null) // #TODO изменить этот флаг на formik.isValid чтобы убрать лишний пропс
@@ -19,6 +21,7 @@ const SignupPage = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const auth = useAuth()
+  const { t } = useTranslation()
 
   useEffect(() => { // проверка на залогированность
     // console.log('LOGIN', localStorage, location, location.state, auth)
@@ -52,17 +55,19 @@ const SignupPage = () => {
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       // setSignupFailed(false)
-
       try {
-        console.log('SIGN UP formik', values)
-        const response = await dispatch(createUser(values)).unwrap()
-        console.log('disp then', response)
+        const response = await toast.promise(
+          dispatch(createUser(values)).unwrap(),
+          {
+            pending: `${t('messages.info')}`,
+            success: `${t('messages.success.signup')}`,
+            error: `${t('messages.errors.signup')}`
+          }
+        )
+
         navigate('/login')
       } catch (err) {
         console.log('disp catch', err)
-        if (err.code === 'ERR_BAD_REQUEST') {
-          // setSignupFailed(err.message)
-        }
       }
     }
   })

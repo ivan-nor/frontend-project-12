@@ -6,13 +6,22 @@ import { useFormik } from 'formik'
 import { useRef } from 'react'
 import { useKey } from 'react-use'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 const Remove = ({ onHide, channel }) => {
   const dispatch = useDispatch()
   const ref = useRef()
   const { t } = useTranslation()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await toast.promise(
+      dispatch(removeChannel({ id: channel.id })).unwrap(),
+      {
+        pending: `${t('messages.info')}`,
+        success: `${t('messages.success.channelRemoved')}`,
+        error: `${t('messages.errors.network')}`
+      }
+    )
     dispatch(removeChannel({ id: channel.id }))
     onHide()
   }
