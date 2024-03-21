@@ -25,7 +25,7 @@ const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, han
             autoComplete={name}
             required
           />
-          <Form.Control.Feedback tooltip type='invalid'>{t(`messages.errors.${name}`)}</Form.Control.Feedback>
+          {/* <Form.Control.Feedback tooltip type='invalid'>{t(`messages.errors.${name}`)}</Form.Control.Feedback> */}
         </FloatingLabel>
       </Form.Group>
     </Row>

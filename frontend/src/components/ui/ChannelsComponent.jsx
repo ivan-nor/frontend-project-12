@@ -28,7 +28,7 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
               active={activeId === channel.id}
               onClick={() => setActiveId(channel?.id)}
               action
-              as='div'
+              as='button'
               role='button'
               variant='info'
               className='d-flex justify-content-between align-items-center border border-opacity-50 rounded-pill'
