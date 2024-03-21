@@ -36,7 +36,15 @@ const Remove = ({ onHide, channel }) => {
             ref={ref}
           >
             <FormGroup>
-              <FormControl name='submit' type="submit" className="btn btn-danger mt-2" value={t('modal.remove.submit')} onBlur={f.handleBlur} onChange={f.handleChange} />
+              <FormControl
+                name='submit'
+                type="submit"
+                className="btn btn-danger mt-2"
+                value={t('modal.remove.submit')}
+                onBlur={f.handleBlur}
+                onChange={f.handleChange}
+                style={{ outline: 0 }}
+              />
             </FormGroup>
           </Form>
         </Modal.Body>
