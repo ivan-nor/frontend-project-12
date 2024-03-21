@@ -64,8 +64,9 @@ const SignupPage = () => {
             error: `${t('messages.errors.signup')}`
           }
         )
-
-        navigate('/login')
+        localStorage.setItem('userId', JSON.stringify(response))
+        auth.logIn()
+        navigate('/')
       } catch (err) {
         console.log('disp catch', err)
       }

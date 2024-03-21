@@ -17,7 +17,9 @@ export const createUser = createAsyncThunk(
   'user/createUser',
   async ({ username, password }) => {
     const response = await axios.post(routes.signupPatn(), { username, password })
-    return response.data // => { token: ..., username: 'newuser' }
+    const { token } = response.data // => { token: ..., username: 'newuser' }
+    const user = { token, username, currentChannel: null, id: username }
+    return user
   }
 )
 
@@ -59,6 +61,7 @@ const usersSlice = createSlice({
         state.error = null
       })
       .addCase(createUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload
         state.loadingStatus = 'idle'
         state.error = null
       })
