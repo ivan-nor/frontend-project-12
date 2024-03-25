@@ -21,3 +21,6 @@ start:
 
 start-deploy:
 	npm run start
+
+start-develop:
+	make start-backend && make start-frontend
