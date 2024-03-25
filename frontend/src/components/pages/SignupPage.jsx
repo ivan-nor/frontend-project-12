@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import { createUser, selectors as usersSelectors } from '../../slices/usersSlice'
 import useAuth from '../../hooks'
-import AuthForm from '../ui/AuthForm'
+import AuthFormComponent from '../ui/AuthFormComponent'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 import { useTranslation } from 'react-i18next'
@@ -107,7 +107,7 @@ const SignupPage = () => {
   // useEffect(() => console.log('TOUCHED', touched), [touched])
 
   return (
-    <AuthForm isShowFooter={false} name={'signup'}>
+    <AuthFormComponent isShowFooter={false} name={'signup'}>
       <FormComponent
         formik={formik}
         handleFocus={handleFocus}
@@ -142,7 +142,7 @@ const SignupPage = () => {
           isInvalid={formik.errors.confirmPassword}
         />
       </FormComponent>
-    </AuthForm>
+    </AuthFormComponent>
   )
 }
 

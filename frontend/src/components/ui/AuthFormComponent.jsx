@@ -13,23 +13,25 @@ const AuthForm = ({ name, children }) => {
   // useEffect(() => console.log((`/${${name}.footer.link`)))
 
   return (
-    <Container fluid={true}>
-      <Row className="vh-100 d-flex justify-content-center align-items-center">
-        <Col md={10} lg={8} xs={12}>
+    <Container fluid={true} className='vh-100'>
+      <Row className="h-100 justify-content-center align-items-center">
+        <Col md={10} lg={8} xs={12} xxl={6}>
           <Card className="shadow">
             <Card.Header className=''>{t(`${name}.title`)}</Card.Header>
-            <Card.Body className="d-flex flex-column flex-md-row justify-content-between align-items-center p-5">
-              <Image src={image} alt={`${name} image`} roundedCircle/>
-              <div>
+            <Card.Body className="p-5">
+              <Row>
+                <Col className='d-flex align-items-center justify-content-center' md={6} sm={12}>
+                  <Image src={image} alt={`${name} image`} roundedCircle />
+                </Col>
                 {children}
-              </div>
+              </Row>
             </Card.Body>
             { isShowFooter &&
               <Card.Footer className='p-4'>
                 <div className='text-center'>
                   <span>{t(`${name}.footer.label`)}</span>
                   <Link to={`/${t(`${name}.footer.link`)}`}>
-                    <span>{t(`${name}.footer.title`)}</span>
+                    {t(`${name}.footer.title`)}
                   </Link>
                 </div>
               </Card.Footer>

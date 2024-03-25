@@ -8,7 +8,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../../hooks'
 import { loginUser } from '../../slices/usersSlice'
-import AuthForm from '../ui/AuthForm'
+import AuthFormComponent from '../ui/AuthFormComponent'
 import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 
@@ -28,12 +28,12 @@ const LoginPage = () => {
 
   const loginSchema = Yup.object().shape({
     username: Yup.string()
-      .min(2, 'Минимум 2 буквы')
-      .max(10, 'Максимум 10 букв')
+      .min(2, t('messages.errors.passwordMax'))
+      .max(10, t('messages.errors.passwordMin'))
       .required('Обязательное поле'),
     password: Yup.string()
-      .min(2, 'Минимум 2 буквы')
-      .max(10, 'Максимум 10 букв')
+      .min(2, t('messages.errors.passwordMin'))
+      // .max(10, 'Максимум 10 букв')
       .required('Обязательное поле')
   })
 
@@ -73,8 +73,13 @@ const LoginPage = () => {
     }
   }
 
+  const handleChange = (e) => {
+    // console.log(e, formik.values)
+    formik.handleChange(e)
+  }
+
   return (
-    <AuthForm name={'login'} isShowFooter={false}>
+    <AuthFormComponent name={'login'} isShowFooter={false}>
       <FormComponent
         formik={formik}
         handleFocus={handleFocus}
@@ -85,7 +90,7 @@ const LoginPage = () => {
           name={'username'}
           type={'login'}
           value={formik.values.username}
-          handleChange={formik.handleChange}
+          handleChange={handleChange}
           handleFocus={handleFocus}
           isInvalid={formik.errors.username}
         />
@@ -93,12 +98,12 @@ const LoginPage = () => {
           name={'password'}
           type={'login'}
           value={formik.values.password}
-          handleChange={formik.handleChange}
+          handleChange={handleChange}
           handleFocus={handleFocus}
           isInvalid={formik.errors.password}
         />
       </FormComponent>
-    </AuthForm>
+    </AuthFormComponent>
   )
 }
 
