@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Row, Col, Container, Card } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
 import ChatWindow from './ChatWindow'
 import InputMessageComponent from './InputMessageComponent'
 import ChannelsComponent from './ChannelsComponent'
@@ -13,11 +13,10 @@ const ChatComponent = ({
   hideModal,
   currentChannel
 }) => (
-  <Container fluid={'xl'} className='p-2' bg='light' style={{ maxHeight: '1000px' }}>
-    <Card body className='p-2' bg='light'>
-        <Row>
-          <Col sm={3} className=''>
-            <Row className='gap-2'>
+  <Container className='container h-100 my-4 overflow-hidden rounded shadow' bg='light'>
+    {/* <Card body className='p-2' bg='light'> */}
+        <Row className='h-100 bg-white'>
+          <Col sm={3} className='col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex'>
               <ChannelsComponent
                 setActiveId={handleActiveTab}
                 hideModal={hideModal}
@@ -25,9 +24,8 @@ const ChatComponent = ({
                 channels={channels}
                 activeId={activeId}
               />
-            </Row>
           </Col>
-          <Col sm={9} className='d-flex flex-column justify-content-between'>
+          <Col sm={9} className='col p-0 h-100 d-flex flex-column'>
             <ChatWindow
               activeId={activeId}
               currentChannel={currentChannel}
@@ -35,7 +33,7 @@ const ChatComponent = ({
             <InputMessageComponent handleSendMessage={handleSendMessage} />
           </Col>
         </Row>
-    </Card>
+    {/* </Card> */}
   </Container>
 )
 

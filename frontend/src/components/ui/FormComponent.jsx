@@ -11,7 +11,8 @@ const FormComponent = ({ formik, children, error, name }) => {
 
       {/* { Object.keys(formik.errors).map((key) => <div className='text-danger' key={key}>{formik.errors[key]}</div>)} */}
 
-      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0 w-100">
+      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+        <h1 className='text-center mb-4'>{t(`${name}.title`)}</h1>
         {children}
         <Button type="submit" variant="primary" disabled={Object.keys(formik.errors).length}>
           {t(`${name}.submit`)}

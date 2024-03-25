@@ -21,7 +21,8 @@ const InputMessageComponent = ({ handleSendMessage }) => {
   }
 
   return (
-      <Form name='inputMessage' onSubmit={handleSubmit} className='p-2 align-content-end'>
+    <div className='mt-auto px-5 py-3'>
+      <Form name='inputMessage' onSubmit={handleSubmit}>
         <InputGroup>
             <Form.Control
               type='text'
@@ -33,6 +34,7 @@ const InputMessageComponent = ({ handleSendMessage }) => {
             <Button type='submit' className='d-inline'>{t('message.submit')}</Button>
         </InputGroup>
       </Form>
+    </div>
   )
 }
 

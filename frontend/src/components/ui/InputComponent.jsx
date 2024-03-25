@@ -1,14 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useTranslation } from 'react-i18next'
-import { Form, Row, Col, FloatingLabel } from 'react-bootstrap'
+import { Form, FloatingLabel } from 'react-bootstrap'
 
 const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, handleBlur, type }) => {
   const { t } = useTranslation()
 
   return (
-    <Row className='mb-3'>
-      <Form.Group as={Col} className="position-relative">
-        <FloatingLabel controlId={name} label={t(`${type}.${name}`)}>
+        <FloatingLabel label={t(`${type}.${name}`)} htmlFor={name} className='mb-3'>
           <Form.Control
             onFocus={handleFocus}
             onChange={handleChange}
@@ -19,7 +17,7 @@ const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, han
             className='d-block'
             value={value}
             placeholder={t(`${type}.${name}`)}
-            name={name}
+            // name={t(`${type}.${name}`)}
             id={name}
 
             autoComplete={name}
@@ -27,8 +25,6 @@ const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, han
           />
           {/* <Form.Control.Feedback tooltip type='invalid'>{t(`messages.errors.${name}`)}</Form.Control.Feedback> */}
         </FloatingLabel>
-      </Form.Group>
-    </Row>
   )
 }
 

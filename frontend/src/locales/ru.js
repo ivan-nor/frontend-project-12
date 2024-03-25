@@ -3,7 +3,7 @@ export default {
     login: {
       username: 'Ваш ник',
       password: 'Пароль',
-      title: 'Авторизация',
+      title: 'Войти',
       submit: 'Войти',
       footer: {
         label: 'Нет аккаунта?',
@@ -50,7 +50,9 @@ export default {
         login: 'Неверные имя пользователя или пароль',
         username: 'Имя пользователя должно содержать от 2 до 10 символов',
         password: 'От 3 до 20 символов',
-        confirmPassword: 'Пароли не совпадают',
+        passwordMin: 'От 3 до 20 символов',
+        passwordLength: 'Не менее 6 символов',
+        confirmPassword: 'Пароли должны совпадать',
         channelName: 'Канал уже существует',
         errorPage: 'Запрашиваемой страницы не существует'
       },
@@ -65,7 +67,7 @@ export default {
     },
     channels: {
       title: 'Каналы',
-      add: '+ Добавить',
+      add: '+',
       rename: 'Переименовать',
       remove: 'Удалить'
     },

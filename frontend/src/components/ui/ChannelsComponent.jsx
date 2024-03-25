@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { ListGroup, Col, Button, Dropdown } from 'react-bootstrap'
+import { ListGroup, Col, Button, Dropdown, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 const getChannelName = ({ removable, name }) => removable ? name : `# ${name}`
@@ -19,19 +19,26 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
 
   return (
     <>
-      <h3>{t('channels.title')}</h3>
-      <Button variant='info' onClick={() => showModal('adding')}>{t('channels.add')}</Button>
-      <ListGroup variant="flush" className='gap-2'>
+      <Row>
+        <Col>
+          <h3>{t('channels.title')}</h3>
+        </Col>
+        <Col className='d-flex justify-content-end'>
+          <Button variant='info' onClick={() => showModal('adding')}>{t('channels.add')}</Button>
+        </Col>
+      </Row>
+      <ListGroup variant="flush" className='d-flex gap-2 nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block gap-2'>
         {channels.map((channel) => (
-          <Col key={channel.id}>
+          <>
             <ListGroup.Item
+              key={channel.id}
               active={activeId === channel.id}
               onClick={() => setActiveId(channel?.id)}
               action
               as='button'
               role='button'
               variant='info'
-              className='d-flex justify-content-between align-items-center border border-opacity-50 rounded-pill'
+              className='d-flex justify-content-between align-items-center border border-opacity-50 rounded-pill w-100'
             >
               {getChannelName(channel)}
               { channel.removable && (
@@ -44,7 +51,7 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
                 </Dropdown>
               )}
             </ListGroup.Item>
-          </Col>
+          </>
         ))}
       </ListGroup>
     </>

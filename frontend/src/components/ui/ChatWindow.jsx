@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from 'react-redux'
 import { messagesOfChannelSelector } from '../../slices/messagesSlice'
-import { Container } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 const ChatWindow = ({ activeId, currentChannel: channel }) => {
@@ -9,7 +8,7 @@ const ChatWindow = ({ activeId, currentChannel: channel }) => {
   const { t } = useTranslation()
 
   return (
-    <Container>
+    <div className=''>
       <h1>{t('chat.title')} {channel?.id} {channel?.name}</h1>
       <div className='overflow-scroll'>
         <ul>
@@ -18,7 +17,7 @@ const ChatWindow = ({ activeId, currentChannel: channel }) => {
           ))}
         </ul>
       </div>
-    </Container>
+    </div>
   )
 }
 

@@ -91,8 +91,6 @@ function App () {
               <AuthButton />
             </HeaderComponent>
 
-            <ToastContainer autoClose={2000} theme='colored' position='bottom-right' />
-
             <Routes>
               <Route
                 path="/"
@@ -106,6 +104,8 @@ function App () {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="*" element={<ErrorPage />} />
             </Routes>
+
+            <ToastContainer autoClose={2000} theme='colored' position='bottom-right' />
           </Router>
         </AuthProvider>
       </ErrorBoundary>
