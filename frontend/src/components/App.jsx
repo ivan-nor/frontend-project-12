@@ -83,8 +83,8 @@ function App () {
   }
 
   return (
-    <RollbarProvider config={rollbarConfig} >
-      <ErrorBoundary>
+  // <RollbarProvider config={rollbarConfig} >
+  //   <ErrorBoundary>
         <AuthProvider>
           <Router>
             <HeaderComponent link={Link} route={'/'} >
@@ -108,8 +108,8 @@ function App () {
             <ToastContainer autoClose={2000} theme='colored' position='bottom-right' />
           </Router>
         </AuthProvider>
-      </ErrorBoundary>
-    </RollbarProvider>
+  //   </ErrorBoundary>
+  // </RollbarProvider>
   )
 }
 
