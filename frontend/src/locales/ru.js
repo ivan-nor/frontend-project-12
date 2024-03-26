@@ -24,13 +24,14 @@ export default {
     },
     header: {
       logo: 'Hexlet',
-      link: 'Chat'
+      link: 'Chat',
+      title: 'Hexlet chat'
     },
     modal: {
       add: {
         title: 'Создание канала',
         submit: 'Создать',
-        placeholder: 'Введите имя канала'
+        placeholder: 'Имя канала'
       },
       rename: {
         title: 'Переименование канала',
@@ -48,13 +49,14 @@ export default {
         network: 'Ошибка соединения',
         signup: 'Такой пользователь уже существует',
         login: 'Неверные имя пользователя или пароль',
-        username: 'Имя пользователя должно содержать от 2 до 10 символов',
-        password: 'От 3 до 20 символов',
-        passwordMin: 'От 3 до 20 символов',
+        username: 'От 3 до 20 символов',
+        password: 'Не менее 6 символов',
+        passwordMin: 'Не менее 6 символов',
         passwordMax: '',
         required: 'Обязательное поле',
         passwordLength: 'Не менее 6 символов',
         confirmPassword: 'Пароли должны совпадать',
+        channelNameLength: 'От 3 до 20 символов',
         channelName: 'Канал уже существует',
         errorPage: 'Запрашиваемой страницы не существует'
       },
@@ -79,7 +81,8 @@ export default {
     },
     message: {
       submit: 'Отправить',
-      label: 'Введите сообщение'
+      label: 'Новое сообщение',
+      placeholder: 'Введите сообщение...'
     }
   }
 }

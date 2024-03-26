@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Modal, FormGroup, FormControl, Form } from 'react-bootstrap'
+import { Modal, FormGroup, FormControl, Form, Button } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
@@ -25,8 +25,8 @@ const Rename = ({ onHide, channel }) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .notOneOf(channels.map(({ name }) => name))
-      .min(2, 'Минимум 2 буквы') // #TODO изменить тексты, добавлять их из i18next
-      .max(20, 'Максимум 20 букв')
+      .min(2, t('messages.errors.channelNameLength')) // #TODO изменить тексты, добавлять их из i18next
+      .max(20, t('messages.errors.channelNameLength'))
       .required('Обязательное поле')
   })
 
@@ -47,7 +47,7 @@ const Rename = ({ onHide, channel }) => {
     },
     validationSchema,
     initialValues: {
-      name: channel.name
+      name: ''
     }
   })
 
@@ -59,8 +59,9 @@ const Rename = ({ onHide, channel }) => {
 
       <Modal.Body>
         <Form onSubmit={f.handleSubmit}>
-          <FormGroup>
+          <FormGroup className='form-floating'>
             <FormControl
+              id='rename'
               required
               ref={inputRef}
               onChange={f.handleChange}
@@ -69,9 +70,11 @@ const Rename = ({ onHide, channel }) => {
               data-testid="input-name"
               name="name"
               isInvalid={f.errors.name}
-              placeholder={t('modal.rename.placeholder')}
+              placeholder={t('modal.add.placeholder')}
             />
-            <FormControl type="submit" className="btn btn-primary mt-2" value={t('modal.rename.submit')} />
+            <Form.Label htmlFor='rename'>{t('modal.add.placeholder')}</Form.Label>
+            <Form.Control.Feedback tooltip type='invalid'>{f.errors.name}</Form.Control.Feedback>
+            <Button type="submit" className="btn btn-primary mt-2">{t('modal.add.submit')}</Button>
           </FormGroup>
         </Form>
       </Modal.Body>

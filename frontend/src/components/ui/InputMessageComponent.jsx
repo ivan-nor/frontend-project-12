@@ -13,9 +13,11 @@ const InputMessageComponent = ({ handleSendMessage }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (value !== '') {
-      const filtered = filter.clean(value)
-      console.log(filtered)
-      handleSendMessage(filtered)
+      filter.loadDictionary('en')
+      const filteredEn = filter.clean(value)
+      filter.loadDictionary('ru')
+      const filteredRu = filter.clean(filteredEn)
+      handleSendMessage(filteredRu)
       setValue('')
     }
   }
@@ -24,14 +26,16 @@ const InputMessageComponent = ({ handleSendMessage }) => {
     <div className='mt-auto px-5 py-3'>
       <Form name='inputMessage' onSubmit={handleSubmit}>
         <InputGroup>
-            <Form.Control
-              type='text'
-              value={value}
-              onChange={handleChange}
-              placeholder={t('message.label')}
-              className='d-inline'
-            />
-            <Button type='submit' className='d-inline'>{t('message.submit')}</Button>
+          <Form.Control
+            type='text'
+            value={value}
+            onChange={handleChange}
+            placeholder={t('message.placeholder')}
+            className='d-inline'
+            id={t('message.label')}
+            aria-label={t('message.label')}
+          />
+          <Button type='submit' className='d-inline'>{t('message.submit')}</Button>
         </InputGroup>
       </Form>
     </div>

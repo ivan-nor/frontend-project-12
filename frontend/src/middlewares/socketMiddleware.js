@@ -24,13 +24,9 @@ const socketMiddleware = (store) => {
   let socket
 
   return (next) => (action) => {
-    console.table('MIDDLSW', action, initSocket.match(action), setMessageSync.match(action))
-
     if (initSocket.match(action)) {
       if (!socket && typeof window !== 'undefined') {
         socket = SocketFactory.create()
-
-        console.log(socket.socket)
 
         socket.socket.on('connect', () => {
           store.dispatch(connectionEstablished())

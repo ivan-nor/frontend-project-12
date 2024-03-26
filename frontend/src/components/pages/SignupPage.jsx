@@ -33,16 +33,16 @@ const SignupPage = () => {
 
   const SignupSchema = Yup.object().shape({ // добавить проверку одинаковых паролей
     username: Yup.string()
-      .min(2, 'Минимум 2 буквы')
-      .max(10, 'Максимум 10 букв')
-      .required('Обязательное поле'),
+      .min(2, t('messages.errors.username'))
+      .max(10, t('messages.errors.username'))
+      .required(t('messages.errors.required')),
     password: Yup.string()
-      .min(2, 'Минимум 2 буквы')
-      .max(10, 'Максимум 10 букв')
-      .required('Обязательное поле'),
+      .min(6, t('messages.errors.passwordMin'))
+      .max(10, t('messages.errors.username'))
+      .required(t('messages.errors.required')),
     confirmPassword: Yup.string()
-      .required('Please re-type your password')
-      .oneOf([Yup.ref('password')], 'Пароли должны совпадать')
+      .required(t('messages.errors.required'))
+      .oneOf([Yup.ref('password')], t('messages.errors.confirmPassword'))
   })
 
   const formik = useFormik({
@@ -85,9 +85,9 @@ const SignupPage = () => {
     }
   }
 
-  // TODO исправить показ ошибки только по конкретному полю и сброс формы если все значения пусты
+  // #TODO исправить показ ошибки только по конкретному полю и сброс формы если все значения пусты
   const handleBlur = (e) => {
-    // console.log('blur', e, formik.errors, formik.touched, formik.values)
+    console.log('blur', e, formik.errors, formik.touched, formik.values)
     // if (Object.keys(formik.errors).length === 0) {
     //   formik.resetForm()
     // } else {
@@ -95,7 +95,7 @@ const SignupPage = () => {
     // }
   }
 
-  const handleChange = (e) => { // добавить отрисовку ошибки только конкретного поля
+  const handleChange = (e) => { // #TODO добавить отрисовку ошибки только конкретного поля
     // console.log('CHANGE', e.target.name, formik.errors, Object.values(formik.values), Object.values(formik.values).join())
     formik.handleChange(e)
     if (Object.values(formik.values).join().length === 0) {
@@ -112,7 +112,7 @@ const SignupPage = () => {
         name={'username'}
         type={'signup'}
         value={formik.values.username}
-        handleChange={(e) => handleChange(e)}
+        handleChange={handleChange}
         handleFocus={handleFocus}
         handleBlur={handleBlur}
         isInvalid={formik.errors.username && formik.touched.username}
@@ -122,7 +122,7 @@ const SignupPage = () => {
         name={'password'}
         type={'signup'}
         value={formik.values.password}
-        handleChange={(e) => handleChange(e)}
+        handleChange={handleChange}
         handleFocus={handleFocus}
         handleBlur={handleBlur}
         isInvalid={formik.errors.password && formik.touched.password}
@@ -132,7 +132,7 @@ const SignupPage = () => {
         name={'confirmPassword'}
         type={'signup'}
         value={formik.values.confirmPassword}
-        handleChange={(e) => handleChange(e)}
+        handleChange={handleChange}
         handleFocus={handleFocus}
         handleBlur={handleBlur}
         isInvalid={formik.errors.confirmPassword && formik.touched.confirmPassword}
