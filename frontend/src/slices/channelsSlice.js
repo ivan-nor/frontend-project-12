@@ -44,7 +44,7 @@ export const removeChannel = createAsyncThunk(
 
 const channelsAdapter = createEntityAdapter()
 
-const initialState = channelsAdapter.getInitialState()
+const initialState = channelsAdapter.getInitialState({ activeId: null })
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -52,7 +52,10 @@ const channelsSlice = createSlice({
   reducers: {
     addChannelSync: channelsAdapter.addOne,
     removeChannelSync: (state, action) => channelsAdapter.removeOne(state, action.payload.id),
-    renameChannelSync: (state, action) => channelsAdapter.updateOne(state, { id: action.payload.id, changes: action.payload })
+    renameChannelSync: (state, action) => channelsAdapter.updateOne(state, { id: action.payload.id, changes: action.payload }),
+    setActiveId: (state, action) => {
+      state.activeId = action.payload ?? null
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -61,16 +64,19 @@ const channelsSlice = createSlice({
       })
       .addCase(addChannel.fulfilled, (state, action) => {
         channelsAdapter.addOne(state, action.payload)
+        state.activeId = action.payload.id
       })
       .addCase(editChannel.fulfilled, (state, action) => {
         channelsAdapter.updateOne(state, { id: action.payload.id, changes: action.payload })
+        state.activeId = action.payload.id
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
         channelsAdapter.removeOne(state, action.payload.id)
+        state.activeId = null
       })
   }
 })
 
-export const { addChannelSync, removeChannelSync, renameChannelSync } = channelsSlice.actions
+export const { addChannelSync, removeChannelSync, renameChannelSync, setActiveId } = channelsSlice.actions
 export const selectors = channelsAdapter.getSelectors((state) => state.channels)
 export default channelsSlice.reducer

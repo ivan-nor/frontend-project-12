@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import filter from 'leo-profanity'
 
-import { selectors as channelsSelectors, fetchChannels } from '../../slices/channelsSlice.js'
+import { selectors as channelsSelectors, fetchChannels, setActiveId } from '../../slices/channelsSlice.js'
 import { selectors as messagesSelectors, fetchMessages, addMessage } from '../../slices/messagesSlice.js'
 import { initSocket } from '../../slices/socketSlice.js'
 
@@ -15,8 +15,8 @@ export default function ChatPage () {
   const messages = useSelector(messagesSelectors.selectAll)
   const channels = useSelector(channelsSelectors.selectAll)
   const user = useSelector(state => state.users.currentUser)
+  const activeId = useSelector(state => state.channels.activeId)
 
-  const [activeId, setActiveId] = useState(null)
   const currentChannel = useSelector((state) => channelsSelectors.selectById(state, activeId))
   const [modalState, setModalState] = useState({ type: null, item: null })
 
@@ -26,25 +26,15 @@ export default function ChatPage () {
   useEffect(() => { // загрузка сообщений и каналов при старте, установка активной вкладки
     dispatch(fetchMessages())
     dispatch(fetchChannels())
-    setActiveId(channels[0]?.id)
-    // setCurrentChannel(channels[0])
+    dispatch(setActiveId(channels[0]?.id))
     dispatch(initSocket())
-    filter.loadDictionary('ru')
   }, [])
 
-  useEffect(() => { // #TODO Доработать установку активной вкладки
-    if (!modalState.type || !currentChannel) {
-      setActiveId(channels[channels.length - 1]?.id)
-    } else {
-      setActiveId(channels[0]?.id)
+  useEffect(() => {
+    if (!activeId && channels.length > 0) {
+      dispatch(setActiveId(channels[0]?.id))
     }
-    console.log('set activeId')
-  }, [channels])
-
-  // useEffect(() => {
-  //   console.log('effect set curr channel', activeId, currentChannel)
-  //   // setCurrentChannel(currentChannel)
-  // }, [activeId])
+  }, [channels, activeId])
 
   const handleSendMessage = async (body) => {
     const newMessage = { body, channelId: activeId, username: user.username }
@@ -65,7 +55,7 @@ export default function ChatPage () {
     return <Component channel={modalState.item} onHide={hideModal} />
   }
 
-  const handleSetActiveId = (id = channels[0].id) => setActiveId(id)
+  const handleSetActiveId = (id) => dispatch(setActiveId(id))
 
   return (
     <>
