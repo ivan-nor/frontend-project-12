@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import useAuth from '../../hooks'
 import { loginUser } from '../../slices/usersSlice'
 import AuthFormComponent from '../ui/AuthFormComponent'
-import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 
 const LoginPage = () => {
@@ -28,12 +27,12 @@ const LoginPage = () => {
 
   const loginSchema = Yup.object().shape({
     username: Yup.string()
-      .min(2, t('messages.errors.passwordMax'))
-      .max(10, t('messages.errors.passwordMin'))
-      .required('Обязательное поле'),
+      .min(2, t('messages.errors.username'))
+      .max(10, t('messages.errors.username'))
+      .required(t('messages.errors.required')),
     password: Yup.string()
       .min(2, t('messages.errors.passwordMin'))
-      // .max(10, 'Максимум 10 букв')
+      .max(10, t('messages.errors.password'))
       .required('Обязательное поле')
   })
 
@@ -79,30 +78,25 @@ const LoginPage = () => {
   }
 
   return (
-    <AuthFormComponent name={'login'} isShowFooter={false}>
-      <FormComponent
-        formik={formik}
+    <AuthFormComponent name={'login'} isShowFooter={false} formik={formik}>
+      <InputComponent
+        name={'username'}
+        type={'login'}
+        value={formik.values.username}
+        handleChange={handleChange}
         handleFocus={handleFocus}
-        error={loginError}
-        name={'login'}
-      >
-        <InputComponent
-          name={'username'}
-          type={'login'}
-          value={formik.values.username}
-          handleChange={handleChange}
-          handleFocus={handleFocus}
-          isInvalid={formik.errors.username}
-        />
-        <InputComponent
-          name={'password'}
-          type={'login'}
-          value={formik.values.password}
-          handleChange={handleChange}
-          handleFocus={handleFocus}
-          isInvalid={formik.errors.password}
-        />
-      </FormComponent>
+        isInvalid={formik.errors.username && formik.touched.username}
+        error={formik.errors.username}
+      />
+      <InputComponent
+        name={'password'}
+        type={'login'}
+        value={formik.values.password}
+        handleChange={handleChange}
+        handleFocus={handleFocus}
+        isInvalid={formik.errors.password && formik.touched.password}
+        error={formik.errors.password}
+      />
     </AuthFormComponent>
   )
 }

@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
-import { Container, Row, Col, Card, Image } from 'react-bootstrap'
+import { Container, Row, Col, Card, Image, Form, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import getImages from '../../assets/images/images'
 // import { useEffect } from 'react'
 
-const AuthForm = ({ name, children }) => {
+const AuthFormComponent = ({ name, children, formik }) => {
   const { t } = useTranslation()
   const image = getImages(name)
   const isShowFooter = (name === 'login')
 
-  // useEffect(() => console.log((`/${${name}.footer.link`)))
+  // useEffect(() => console.log('formik.touched', formik.touched, formik.errors), [formik.errors, formik.touched])
 
   return (
     <Container fluid={true} className='vh-100'>
@@ -23,9 +23,20 @@ const AuthForm = ({ name, children }) => {
                 <Col className='d-flex align-items-center justify-content-center' md={6} sm={12}>
                   <Image src={image} alt={`${name} image`} roundedCircle />
                 </Col>
-                {children}
+                <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+                  <h1 className='text-center mb-4'>{t(`${name}.title`)}</h1>
+                  {children}
+                  <Button
+                    type="submit"
+                    // variant="primary"
+                    // disabled={Object.keys(formik.errors).length}
+                  >
+                    {t(`${name}.submit`)}
+                  </Button>
+                </Form>
               </Row>
             </Card.Body>
+
             { isShowFooter &&
               <Card.Footer className='p-4'>
                 <div className='text-center'>
@@ -43,4 +54,4 @@ const AuthForm = ({ name, children }) => {
   )
 }
 
-export default AuthForm
+export default AuthFormComponent

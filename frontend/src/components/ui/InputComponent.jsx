@@ -2,7 +2,7 @@
 import { useTranslation } from 'react-i18next'
 import { Form, FloatingLabel } from 'react-bootstrap'
 
-const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, handleBlur, type }) => {
+const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, handleBlur, type, error }) => {
   const { t } = useTranslation()
 
   return (
@@ -23,7 +23,7 @@ const InputComponent = ({ name, value, handleChange, handleFocus, isInvalid, han
             autoComplete={name}
             required
           />
-          {/* <Form.Control.Feedback tooltip type='invalid'>{t(`messages.errors.${name}`)}</Form.Control.Feedback> */}
+          <Form.Control.Feedback tooltip type='invalid'>{error}</Form.Control.Feedback>
         </FloatingLabel>
   )
 }

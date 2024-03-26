@@ -51,6 +51,8 @@ export default {
         username: 'Имя пользователя должно содержать от 2 до 10 символов',
         password: 'От 3 до 20 символов',
         passwordMin: 'От 3 до 20 символов',
+        passwordMax: '',
+        required: 'Обязательное поле',
         passwordLength: 'Не менее 6 символов',
         confirmPassword: 'Пароли должны совпадать',
         channelName: 'Канал уже существует',

@@ -8,7 +8,6 @@ import { toast } from 'react-toastify'
 import { createUser, selectors as usersSelectors } from '../../slices/usersSlice'
 import useAuth from '../../hooks'
 import AuthFormComponent from '../ui/AuthFormComponent'
-import FormComponent from '../ui/FormComponent'
 import InputComponent from '../ui/InputComponent'
 import { useTranslation } from 'react-i18next'
 
@@ -55,6 +54,7 @@ const SignupPage = () => {
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       // setSignupFailed(false)
+      console.log('handle submit')
       try {
         const response = await toast.promise(
           dispatch(createUser(values)).unwrap(),
@@ -107,41 +107,37 @@ const SignupPage = () => {
   // useEffect(() => console.log('TOUCHED', touched), [touched])
 
   return (
-    <AuthFormComponent isShowFooter={false} name={'signup'}>
-      <FormComponent
-        formik={formik}
+    <AuthFormComponent isShowFooter={false} name={'signup'} formik={formik}>
+      <InputComponent
+        name={'username'}
+        type={'signup'}
+        value={formik.values.username}
+        handleChange={(e) => handleChange(e)}
         handleFocus={handleFocus}
-        error={signupError}
-        name={'signup'}
-      >
-        <InputComponent
-          name={'username'}
-          type={'signup'}
-          value={formik.values.username}
-          handleChange={(e) => handleChange(e)}
-          handleFocus={handleFocus}
-          handleBlur={handleBlur}
-          isInvalid={formik.errors.username}
-        />
-        <InputComponent
-          name={'password'}
-          type={'signup'}
-          value={formik.values.password}
-          handleChange={(e) => handleChange(e)}
-          handleFocus={handleFocus}
-          handleBlur={handleBlur}
-          isInvalid={formik.errors.password}
-        />
-        <InputComponent
-          name={'confirmPassword'}
-          type={'signup'}
-          value={formik.values.confirmPassword}
-          handleChange={(e) => handleChange(e)}
-          handleFocus={handleFocus}
-          handleBlur={handleBlur}
-          isInvalid={formik.errors.confirmPassword}
-        />
-      </FormComponent>
+        handleBlur={handleBlur}
+        isInvalid={formik.errors.username && formik.touched.username}
+        error={formik.errors.username}
+      />
+      <InputComponent
+        name={'password'}
+        type={'signup'}
+        value={formik.values.password}
+        handleChange={(e) => handleChange(e)}
+        handleFocus={handleFocus}
+        handleBlur={handleBlur}
+        isInvalid={formik.errors.password && formik.touched.password}
+        error={formik.errors.password}
+      />
+      <InputComponent
+        name={'confirmPassword'}
+        type={'signup'}
+        value={formik.values.confirmPassword}
+        handleChange={(e) => handleChange(e)}
+        handleFocus={handleFocus}
+        handleBlur={handleBlur}
+        isInvalid={formik.errors.confirmPassword && formik.touched.confirmPassword}
+        error={formik.errors.confirmPassword}
+      />
     </AuthFormComponent>
   )
 }
