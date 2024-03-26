@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Container } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 const HeaderComponent = ({ children, link, route }) => {
