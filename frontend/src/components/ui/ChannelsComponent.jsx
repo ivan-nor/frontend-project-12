@@ -1,11 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Col, Button, Dropdown, Row, ButtonGroup } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
+import {
+  Col, Button, Dropdown, Row, ButtonGroup,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 // const getChannelName = ({ removable, name }) => removable ? name : `# ${name}`
 
-const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
-  const { t } = useTranslation()
+const ChannelsComponent = ({
+  channels, activeId, setActiveId, showModal,
+}) => {
+  const { t } = useTranslation();
 
   return (
     <>
@@ -13,14 +17,14 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
         <Col>
           <h3>{t('channels.title')}</h3>
         </Col>
-        <Col className='d-flex justify-content-end'>
-          <Button variant='info' onClick={() => showModal('adding')}>{t('channels.add')}</Button>
+        <Col className="d-flex justify-content-end">
+          <Button variant="info" onClick={() => showModal('adding')}>{t('channels.add')}</Button>
         </Col>
       </Row>
 
-      <ul className='nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block'>
+      <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel) => {
-          const variant = activeId === channel.id ? 'secondary' : null
+          const variant = activeId === channel.id ? 'secondary' : null;
 
           return (
             <li key={channel.id} className="nav-item w-100">
@@ -45,7 +49,7 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
                       <Dropdown.Item onClick={() => showModal('removing', channel)}>{t('channels.remove')}</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                  )
+                )
                 : (
                   <Button
                     type="button"
@@ -56,14 +60,13 @@ const ChannelsComponent = ({ channels, activeId, setActiveId, showModal }) => {
                     <span className="me-1">#</span>
                     {channel.name}
                   </Button>
-                  )
-              }
+                )}
             </li>
-          )
+          );
         })}
       </ul>
     </>
-  )
-}
+  );
+};
 
-export default ChannelsComponent
+export default ChannelsComponent;

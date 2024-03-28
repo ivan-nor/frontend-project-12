@@ -1,12 +1,14 @@
-import { useTranslation } from 'react-i18next'
-import { Card, Container } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next';
+import { Card, Container } from 'react-bootstrap';
 
-export default function ErrorPath () {
-  const { t } = useTranslation()
+const ErrorPath = () => {
+  const { t } = useTranslation();
 
   return (
-    <Container fluid='xl'>
+    <Container fluid="xl">
       <Card body>{t('errors.errorPage')}</Card>
     </Container>
-  )
-}
+  );
+};
+
+export default ErrorPath;
