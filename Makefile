@@ -4,6 +4,11 @@ lint-frontend:
 install:
 	npm ci
 
+install-deploy:
+	npm ci
+	cd frontend && npm ci && npm build
+
+
 start-frontend:
 	make -C frontend start
 
