@@ -6,7 +6,7 @@ install:
 
 install-deploy:
 	npm ci
-	cd frontend && npm ci && npm build
+	cd frontend && npm ci && npm run build
 
 
 start-frontend:
