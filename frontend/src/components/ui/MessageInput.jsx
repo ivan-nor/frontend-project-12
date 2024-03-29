@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
-import { Form, Button, InputGroup } from 'react-bootstrap'
+// import { Form, Button, InputGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import filter from 'leo-profanity'
+import { MDBInputGroup, MDBRow, MDBBtn } from 'mdb-react-ui-kit'
 
 const MessageInput = ({ handleSendMessage }) => {
   const { t } = useTranslation()
@@ -24,9 +25,22 @@ const MessageInput = ({ handleSendMessage }) => {
 
   return (
     <div className="mt-auto px-5 py-3">
-      <Form name="inputMessage" onSubmit={handleSubmit}>
-        <InputGroup>
-          <Form.Control
+      {/* <form name="inputMessage" onSubmit={handleSubmit}> */}
+      <MDBRow tag='form' className='row-cols-lg-auto g-3 align-items-center' onSubmit={handleSubmit}>
+        <MDBInputGroup className='mb-3'>
+          <input
+            className='form-control'
+            placeholder={t('message.placeholder')}
+            type='text'
+            onChange={handleChange}
+            value={value}
+            id={t('message.label')}
+            aria-label={t('message.label')}
+          />
+          <MDBBtn outline type="submit">{t('message.submit')}</MDBBtn>
+        </MDBInputGroup>
+
+          {/* <Form.Control
             type="text"
             value={value}
             onChange={handleChange}
@@ -35,9 +49,9 @@ const MessageInput = ({ handleSendMessage }) => {
             id={t('message.label')}
             aria-label={t('message.label')}
           />
-          <Button type="submit" className="d-inline">{t('message.submit')}</Button>
-        </InputGroup>
-      </Form>
+          <Button type="submit" className="d-inline">{t('message.submit')}</Button> */}
+      </MDBRow>
+      {/* </form> */}
     </div>
   )
 }

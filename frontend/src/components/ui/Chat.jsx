@@ -25,7 +25,9 @@ import {
   MDBListGroupItem
 } from 'mdb-react-ui-kit'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { setActiveId } from '../../slices/channelsSlice'
+import { messagesOfChannelSelector } from '../../slices/messagesSlice'
 
 const Chat = ({
   handleSendMessage,
@@ -60,22 +62,21 @@ const Chat = ({
 
 }) => {
   const { t } = useTranslation()
+  const messages = useSelector(messagesOfChannelSelector(activeId))
+
   return (
-  <MDBContainer className="py-5 h-100 mh-100">
-      <MDBRow className=''>
-        <MDBCol md="12" className=''>
-          <MDBCard id="chat3" style={{ borderRadius: '15px' }} className=''>
+  <MDBContainer className="py-5" >
+          <MDBCard id="chat3" style={{ borderRadius: '15px' }} className='h-100'>
             <MDBCardBody className=''>
-              <MDBRow className=''>
-                <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0 ">
-                  <div className="p-3">
-                    <div className="d-grid gap-2 d-md-flex">
+              <MDBRow className='' style={{ height: '50vh' }}>
+                <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0 h-100 overflow-hidden">
+                    <span className='d-flex align-items-center'>
                       <h3>{t('channels.title')}</h3>
                       <MDBInputGroup className="rounded mb-3 justify-content-md-end">
-                      <MDBBtn onClick={() => showModal('adding')}>{t('channels.add')}</MDBBtn>
+                        <MDBBtn onClick={() => showModal('adding')}>{t('channels.add')}</MDBBtn>
                       </MDBInputGroup>
-                    </div>
-                    <MDBListGroup light>
+                    </span>
+                    <MDBListGroup light className='overflow-auto h-100'>
                         {channels.map((channel) => {
                           const variant = activeId === channel.id ? 'secondary' : null
 
@@ -85,24 +86,23 @@ const Chat = ({
                               noBorders
                               active={channel.id === activeId}
                               aria-current='true'
-                              // type='button'
                               className='px-3 p-2 border-bottom d-flex justify-content-between align-items-center'
-                              // size='lg'
+                              color='secondary'
                               onClick={() => handleActiveTab(channel.id)}
                             >
                                 <span>
                                   # {channel.name}
                                 </span>
                               {channel.removable &&
-                                <MDBDropdown group className='shadow-0'>
-                                  <MDBDropdownToggle color='light' className='px-3' rounded>
+                                <MDBDropdown group className='shadow-0' color='secondary'>
+                                  <MDBDropdownToggle color='secondary' className='px-3' rounded>
                                   <span style={{ visibility: 'hidden' }}>
                                     {/* Управление каналом */}
                                   </span>
                                   </MDBDropdownToggle>
                                   <MDBDropdownMenu>
-                                    <MDBDropdownItem className='p-3' onClick={() => showModal('renaming', channel)}>{t('channels.rename')}</MDBDropdownItem>
-                                    <MDBDropdownItem className='p-3' onClick={() => showModal('removing', channel)}>{t('channels.remove')}</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={() => showModal('renaming', channel)}>{t('channels.rename')}</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={() => showModal('removing', channel)}>{t('channels.remove')}</MDBDropdownItem>
                                   </MDBDropdownMenu>
                                 </MDBDropdown>
                               }
@@ -110,10 +110,29 @@ const Chat = ({
                           )
                         })}
                     </MDBListGroup>
-                  </div>
                 </MDBCol>
 
-                {/* <MDBCol md="6" lg="7" xl="8" className=''>
+                <MDBCol md="6" lg="7" xl="8" className='h-100 d-flex flex-column'>
+                  {/* CHAT BOX */}
+                  <h1 className='w-100 text-center'>{`${t('chat.title')} ${currentChannel?.id} ${currentChannel?.name}`}</h1>
+                  <div className="overflow-auto h-100 w-100">
+                    <ul className='list-group-flush h-100'>
+                      {messages?.map((message) => (
+                        <li key={message.id}>
+                          {t('chat.user')}
+                          :
+                          {' '}
+                          {message.username}
+                          {' '}
+                          | MESSAGE:
+                          {' '}
+                          {message.body}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                {/* CHAT BOX */}
+
                     <div className="d-flex flex-row justify-content-start">
                       <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
@@ -153,34 +172,13 @@ const Chat = ({
                       />
                     </div>
 
-                  <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                      alt="avatar 3"
-                      style={{ width: '40px', height: '100%' }}
-                    />
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      id="exampleFormControlInput2"
-                      placeholder="Type message"
-                    />
-                    <a className="ms-1 text-muted" href="#!">
-                      <MDBIcon fas icon="paperclip" />
-                    </a>
-                    <a className="ms-3 text-muted" href="#!">
-                      <MDBIcon fas icon="smile" />
-                    </a>
-                    <a className="ms-3" href="#!">
-                      <MDBIcon fas icon="paper-plane" />
-                    </a>
+                  <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-auto">
+                    <MessageInput handleSendMessage={handleSendMessage} />
                   </div>
-                </MDBCol> */}
+                </MDBCol>
               </MDBRow>
             </MDBCardBody>
           </MDBCard>
-        </MDBCol>
-      </MDBRow>
     </MDBContainer>
   )
 }
