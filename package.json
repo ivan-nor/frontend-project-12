@@ -20,13 +20,6 @@
   },
   "homepage": "https://github.com/ivan-nor/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^2.0.0",
-    "serve": "^14.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.30"
-  },
-  "engines": {
-    "node": "^18.20.0"
+    "@hexlet/chat-server": "^2.0.0"
   }
 }
