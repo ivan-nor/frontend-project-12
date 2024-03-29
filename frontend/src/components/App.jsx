@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../assets/App.css'
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import { logoutUser, setCurrentUser } from '../slices/usersSlice.js';

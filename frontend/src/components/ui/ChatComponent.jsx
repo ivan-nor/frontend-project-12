@@ -3,6 +3,13 @@ import { Row, Col, Container } from 'react-bootstrap';
 import ChatWindow from './ChatWindow';
 import InputMessageComponent from './InputMessageComponent';
 import ChannelsComponent from './ChannelsComponent';
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBCardText,
+  MDBBtn
+} from 'mdb-react-ui-kit';
 
 const ChatComponent = ({
   handleSendMessage,
@@ -31,6 +38,15 @@ const ChatComponent = ({
           currentChannel={currentChannel}
         />
         <InputMessageComponent handleSendMessage={handleSendMessage} />
+        <MDBCard>
+          <MDBCardBody>
+            <MDBCardTitle>Card title</MDBCardTitle>
+            <MDBCardText>
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </MDBCardText>
+            <MDBBtn>Button</MDBBtn>
+          </MDBCardBody>
+        </MDBCard>
       </Col>
     </Row>
     {/* </Card> */}

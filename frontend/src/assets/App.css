@@ -1,4 +1,5 @@
-/* body {
-  text-align: center;
-  margin: auto 0;
-} */
+body {
+  /* font-family: Roboto, Helvetica, Arial, sans-serif; */
+  background-image: url('https://mdbootstrap.com/img/new/slides/041.webp');
+  background-size: cover;
+}
