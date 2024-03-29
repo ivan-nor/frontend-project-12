@@ -21,7 +21,7 @@ const HeaderComponent = ({ children, link, route }) => {
   return (
     <header>
       <MDBNavbar expand='lg' bgColor='dark'>
-        <MDBContainer fluid>
+        <MDBContainer className="px-3">
             <MDBNavbarNav right className='mb-2 mb-lg-0 d-flex justify-content-between align-items-center'>
               <MDBNavbarItem active>
                 <Link to={route} className='fw-bold text-light' tag={link}>
