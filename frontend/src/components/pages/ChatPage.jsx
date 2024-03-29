@@ -8,7 +8,7 @@ import { selectors as channelsSelectors, fetchChannels, setActiveId } from '../.
 import { selectors as messagesSelectors, fetchMessages, addMessage } from '../../slices/messagesSlice.js'
 import { initSocket } from '../../slices/socketSlice.js'
 
-import ChatComponent from '../ui/ChatComponent'
+import ChatComponent from '../ui/Chat.jsx'
 import getModal from '../modals/modals.js'
 
 const ChatPage = () => {

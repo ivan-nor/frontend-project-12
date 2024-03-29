@@ -8,8 +8,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../../hooks'
 import { loginUser } from '../../slices/usersSlice'
-import AuthFormComponent from '../ui/AuthFormComponent'
-import InputComponent from '../ui/InputComponent'
+import AuthForm from '../ui/AuthForm'
+import AuthInput from '../ui/AuthInput'
 
 const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false) // #TODO убрать лишний пропс
@@ -78,8 +78,8 @@ const LoginPage = () => {
   }
 
   return (
-    <AuthFormComponent name="login" isShowFooter={false} formik={formik}>
-      <InputComponent
+    <AuthForm name="login" isShowFooter={false} formik={formik}>
+      <AuthInput
         name="username"
         type="login"
         value={formik.values.username}
@@ -88,7 +88,7 @@ const LoginPage = () => {
         isInvalid={formik.errors.username && formik.touched.username}
         error={formik.errors.username}
       />
-      <InputComponent
+      <AuthInput
         name="password"
         type="login"
         value={formik.values.password}
@@ -97,7 +97,7 @@ const LoginPage = () => {
         isInvalid={formik.errors.password && formik.touched.password}
         error={formik.errors.password}
       />
-    </AuthFormComponent>
+    </AuthForm>
   )
 }
 

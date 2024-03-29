@@ -18,7 +18,7 @@ import PropTypes from 'prop-types'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import '../assets/App.css'
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
+// import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
 
 import { logoutUser, setCurrentUser } from '../slices/usersSlice.js'
 import useAuth from '../hooks/index.jsx'
@@ -28,7 +28,7 @@ import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
 import ChatPage from './pages/ChatPage.jsx'
-import HeaderComponent from './ui/HeaderComponent.jsx'
+import HeaderComponent from './ui/Header.jsx'
 
 const AuthProvider = ({ children }) => {
   const dispatch = useDispatch()

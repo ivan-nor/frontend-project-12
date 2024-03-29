@@ -8,8 +8,8 @@ import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import { createUser, selectors as usersSelectors } from '../../slices/usersSlice'
 import useAuth from '../../hooks'
-import AuthFormComponent from '../ui/AuthFormComponent'
-import InputComponent from '../ui/InputComponent'
+import AuthForm from '../ui/AuthForm'
+import AuthInput from '../ui/AuthInput'
 
 const SignupPage = () => {
   // const [signupFailed, setSignupFailed] = useState(null) // #TODO убрать лишний пропс
@@ -106,8 +106,8 @@ const SignupPage = () => {
   // useEffect(() => console.log('TOUCHED', touched), [touched])
 
   return (
-    <AuthFormComponent isShowFooter={false} name="signup" formik={formik}>
-      <InputComponent
+    <AuthForm isShowFooter={false} name="signup" formik={formik}>
+      <AuthInput
         name="username"
         type="signup"
         value={formik.values.username}
@@ -117,7 +117,7 @@ const SignupPage = () => {
         isInvalid={formik.errors.username && formik.touched.username}
         error={formik.errors.username}
       />
-      <InputComponent
+      <AuthInput
         name="password"
         type="signup"
         value={formik.values.password}
@@ -127,7 +127,7 @@ const SignupPage = () => {
         isInvalid={formik.errors.password && formik.touched.password}
         error={formik.errors.password}
       />
-      <InputComponent
+      <AuthInput
         name="confirmPassword"
         type="signup"
         value={formik.values.confirmPassword}
@@ -137,7 +137,7 @@ const SignupPage = () => {
         isInvalid={formik.errors.confirmPassword && formik.touched.confirmPassword}
         error={formik.errors.confirmPassword}
       />
-    </AuthFormComponent>
+    </AuthForm>
   )
 }
 
