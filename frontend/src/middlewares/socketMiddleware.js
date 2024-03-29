@@ -1,71 +1,71 @@
 /* eslint-disable max-classes-per-file */
-import { io } from 'socket.io-client';
-import { connectionEstablished, initSocket, connectionLost } from '../slices/socketSlice';
-import { setMessageSync } from '../slices/messagesSlice';
-import { addChannelSync, renameChannelSync, removeChannelSync } from '../slices/channelsSlice';
+import { io } from 'socket.io-client'
+import { connectionEstablished, initSocket, connectionLost } from '../slices/socketSlice'
+import { setMessageSync } from '../slices/messagesSlice'
+import { addChannelSync, renameChannelSync, removeChannelSync } from '../slices/channelsSlice'
 
 class SocketConnection {
-  constructor() {
-    this.socket = io();
+  constructor () {
+    this.socket = io()
   }
 }
 
-let socketConnection;
+let socketConnection
 
 class SocketFactory {
-  static create() {
+  static create () {
     if (!socketConnection) {
-      socketConnection = new SocketConnection();
+      socketConnection = new SocketConnection()
     }
-    return socketConnection;
+    return socketConnection
   }
 }
 
 const socketMiddleware = (store) => {
-  let socket;
+  let socket
 
   return (next) => (action) => {
     if (initSocket.match(action)) {
       if (!socket && typeof window !== 'undefined') {
-        socket = SocketFactory.create();
+        socket = SocketFactory.create()
 
         socket.socket.on('connect', () => {
-          store.dispatch(connectionEstablished());
-        });
+          store.dispatch(connectionEstablished())
+        })
 
         socket.socket.on('err', (message) => {
-          console.error(message);
-        });
+          console.error(message)
+        })
 
         socket.socket.on('disconnect', (reason) => {
-          console.log('dissconnet reason :>> ', reason);
-          store.dispatch(connectionLost());
-        });
+          console.log('dissconnet reason :>> ', reason)
+          store.dispatch(connectionLost())
+        })
 
         socket.socket.on('newMessage', (payload) => {
-          console.log('IN SOCKET MIDDLWR', payload);
-          store.dispatch(setMessageSync(payload));
-        });
+          console.log('IN SOCKET MIDDLWR', payload)
+          store.dispatch(setMessageSync(payload))
+        })
 
         socket.socket.on('newChannel', (payload) => {
-          console.log(payload); // { id: 6, name: "new channel", removable: true }
-          store.dispatch(addChannelSync(payload));
-        });
+          console.log(payload) // { id: 6, name: "new channel", removable: true }
+          store.dispatch(addChannelSync(payload))
+        })
 
         socket.socket.on('removeChannel', (payload) => {
-          console.log(payload); // { id: 6 }
-          store.dispatch(removeChannelSync(payload));
-        });
+          console.log(payload) // { id: 6 }
+          store.dispatch(removeChannelSync(payload))
+        })
 
         socket.socket.on('renameChannel', (payload) => {
-          console.log(payload); // { id: 7, name: "new name channel", removable: true }
-          store.dispatch(renameChannelSync(payload));
-        });
+          console.log(payload) // { id: 7, name: "new name channel", removable: true }
+          store.dispatch(renameChannelSync(payload))
+        })
       }
     }
 
-    next(action);
-  };
-};
+    next(action)
+  }
+}
 
-export default socketMiddleware;
+export default socketMiddleware

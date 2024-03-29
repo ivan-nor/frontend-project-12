@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useTranslation } from 'react-i18next';
-import { Form } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next'
+import { Form } from 'react-bootstrap'
 
 // #TODO переименовать в AuthInput
 const InputComponent = ({
-  name, value, handleChange, handleFocus, isInvalid, handleBlur, type, error,
+  name, value, handleChange, handleFocus, isInvalid, handleBlur, type, error
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Form.Group className="form-floating mb-3">
@@ -28,8 +28,8 @@ const InputComponent = ({
       <Form.Label htmlFor={name}>{t(`${type}.${name}`)}</Form.Label>
       <Form.Control.Feedback tooltip type="invalid">{error}</Form.Control.Feedback>
     </Form.Group>
-  );
-};
+  )
+}
 
 // TODO: доработать ваоидацию пропсов
 
@@ -41,4 +41,4 @@ const InputComponent = ({
 //   handleFocus: 'function'
 // }
 
-export default InputComponent;
+export default InputComponent

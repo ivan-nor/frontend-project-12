@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import { Navbar, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -12,10 +12,10 @@ import {
   MDBIcon,
   MDBCollapse,
   MDBBtn
-} from 'mdb-react-ui-kit';
+} from 'mdb-react-ui-kit'
 
 const HeaderComponent = ({ children, link, route }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <header>
@@ -34,14 +34,14 @@ const HeaderComponent = ({ children, link, route }) => {
         </MDBContainer>
       </MDBNavbar>
     </header>
-    
-    // <Navbar className="p-3 mb-2 bg-dark bg-gradient text-white rounded-5">
-    //   <Container>
-    //     <Navbar.Brand as={link} to={route}>{t('header.title')}</Navbar.Brand>
-    //     {children}
-    //   </Container>
-    // </Navbar>
-  );
-};
 
-export default HeaderComponent;
+  // <Navbar className="p-3 mb-2 bg-dark bg-gradient text-white rounded-5">
+  //   <Container>
+  //     <Navbar.Brand as={link} to={route}>{t('header.title')}</Navbar.Brand>
+  //     {children}
+  //   </Container>
+  // </Navbar>
+  )
+}
+
+export default HeaderComponent

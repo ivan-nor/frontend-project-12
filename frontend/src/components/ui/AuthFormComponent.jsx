@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // /* eslint-disable react/prop-types */
 // import {
 //   Container, Row, Col, Card, Image, Form, Button,
@@ -14,16 +15,16 @@ import {
   MDBRow,
   MDBCol,
   MDBBtn
-} from 'mdb-react-ui-kit';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import getImages from '../../assets/images/images';
+} from 'mdb-react-ui-kit'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import getImages from '../../assets/images/images'
 // import { useEffect } from 'react'
 
 const AuthFormComponent = ({ name, children, formik }) => {
-  const { t } = useTranslation();
-  const image = getImages(name);
-  const isShowFooter = (name === 'login');
+  const { t } = useTranslation()
+  const image = getImages(name)
+  const isShowFooter = (name === 'login')
 
   return (
     <MDBContainer fluid className="vh-100">
@@ -50,8 +51,8 @@ const AuthFormComponent = ({ name, children, formik }) => {
               </MDBRow>
             </MDBCardBody>
 
-            { isShowFooter
-              && (
+            { isShowFooter &&
+              (
               <MDBCardFooter className="p-4">
                 <div className="text-center">
                   <span>{t(`${name}.footer.label`)}</span>
@@ -65,7 +66,7 @@ const AuthFormComponent = ({ name, children, formik }) => {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
-  );
-};
+  )
+}
 
-export default AuthFormComponent;
+export default AuthFormComponent

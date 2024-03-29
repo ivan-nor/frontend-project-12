@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { messagesOfChannelSelector } from '../../slices/messagesSlice';
+import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { messagesOfChannelSelector } from '../../slices/messagesSlice'
 
 const ChatWindow = ({ activeId, currentChannel: channel }) => {
-  const messages = useSelector(messagesOfChannelSelector(activeId));
-  const { t } = useTranslation();
+  const messages = useSelector(messagesOfChannelSelector(activeId))
+  const { t } = useTranslation()
 
   return (
     <div className="">
@@ -17,7 +17,7 @@ const ChatWindow = ({ activeId, currentChannel: channel }) => {
         {channel?.name}
       </h1>
       <div className="overflow-scroll">
-        <ul>
+        <ul className='list-group-flush'>
           {messages?.map((message) => (
             <li key={message.id}>
               {t('chat.user')}
@@ -33,7 +33,7 @@ const ChatWindow = ({ activeId, currentChannel: channel }) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatWindow;
+export default ChatWindow

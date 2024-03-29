@@ -8,41 +8,41 @@ export default {
       footer: {
         label: 'Нет аккаунта?',
         link: 'signup',
-        title: 'Регистрация',
-      },
+        title: 'Регистрация'
+      }
     },
     signup: {
       username: 'Имя пользователя',
       password: 'Пароль',
       confirmPassword: 'Подтвердите пароль',
       title: 'Регистрация',
-      submit: 'Зарегистрироваться',
+      submit: 'Зарегистрироваться'
     },
     authButton: {
       login: 'Войти',
-      logout: 'Выйти',
+      logout: 'Выйти'
     },
     header: {
       logo: 'Hexlet',
       link: 'Chat',
-      title: 'Hexlet chat',
+      title: 'Hexlet chat'
     },
     modal: {
       add: {
         title: 'Создание канала',
         submit: 'Создать',
-        placeholder: 'Имя канала',
+        placeholder: 'Имя канала'
       },
       rename: {
         title: 'Переименование канала',
         submit: 'Переименовать',
-        placeholder: 'Введите имя канала',
+        placeholder: 'Введите имя канала'
       },
       remove: {
         title: 'Удаление канала',
-        submit: 'Удалить',
+        submit: 'Удалить'
       },
-      label: 'Имя канала',
+      label: 'Имя канала'
     },
     messages: {
       errors: {
@@ -58,31 +58,31 @@ export default {
         confirmPassword: 'Пароли должны совпадать',
         channelNameLength: 'От 3 до 20 символов',
         channelName: 'Канал уже существует',
-        errorPage: 'Запрашиваемой страницы не существует',
+        errorPage: 'Запрашиваемой страницы не существует'
       },
       success: {
         login: 'Вход успешно выполнен',
         signup: 'Пользоваль зарегистрирован',
         channelAdded: 'Канал создан',
         channelRenamed: 'Канал переименован',
-        channelRemoved: 'Канал удалён',
+        channelRemoved: 'Канал удалён'
       },
-      info: 'Ожидание ответа',
+      info: 'Ожидание ответа'
     },
     channels: {
       title: 'Каналы',
       add: '+',
       rename: 'Переименовать',
-      remove: 'Удалить',
+      remove: 'Удалить'
     },
     chat: {
       title: 'Канал',
-      user: 'Пользователь',
+      user: 'Пользователь'
     },
     message: {
       submit: 'Отправить',
       label: 'Новое сообщение',
-      placeholder: 'Введите сообщение...',
-    },
-  },
-};
+      placeholder: 'Введите сообщение...'
+    }
+  }
+}
