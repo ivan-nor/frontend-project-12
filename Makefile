@@ -13,7 +13,7 @@ start-frontend:
 	make -C frontend start
 
 start-backend:
-	npx start-server
+	npx start-server --port 5000
 
 deploy:
 	git push heroku main
@@ -32,3 +32,6 @@ deploy-build:
 	cd ..
 	rm frontend/build -rf
 	npm run build
+
+test:
+	make -C frontend test

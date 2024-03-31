@@ -12,3 +12,6 @@ lint:
 
 start-build:
 	npx serve -s build
+
+test:
+	npx playwright test __tests__/10-application.test.js
