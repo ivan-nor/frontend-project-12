@@ -24,10 +24,9 @@ const MessageInput = ({ handleSendMessage }) => {
   }
 
   return (
-    <div className="mt-auto px-5 py-3">
-      {/* <form name="inputMessage" onSubmit={handleSubmit}> */}
-      <MDBRow tag='form' className='row-cols-lg-auto g-3 align-items-center' onSubmit={handleSubmit}>
-        <MDBInputGroup className='mb-3'>
+    <MDBRow tag='form' className='row-cols-lg-auto g-3 align-items-center mt-auto' onSubmit={handleSubmit}>
+        {/* <form name="inputMessage" onSubmit={handleSubmit}> */}
+        <MDBInputGroup className='' size='lg'>
           <input
             className='form-control'
             placeholder={t('message.placeholder')}
@@ -37,7 +36,7 @@ const MessageInput = ({ handleSendMessage }) => {
             id={t('message.label')}
             aria-label={t('message.label')}
           />
-          <MDBBtn outline type="submit">{t('message.submit')}</MDBBtn>
+          <MDBBtn type="submit">{t('message.submit')}</MDBBtn>
         </MDBInputGroup>
 
           {/* <Form.Control
@@ -50,9 +49,8 @@ const MessageInput = ({ handleSendMessage }) => {
             aria-label={t('message.label')}
           />
           <Button type="submit" className="d-inline">{t('message.submit')}</Button> */}
-      </MDBRow>
       {/* </form> */}
-    </div>
+      </MDBRow>
   )
 }
 
