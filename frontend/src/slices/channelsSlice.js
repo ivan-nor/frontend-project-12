@@ -64,6 +64,7 @@ const channelsSlice = createSlice({
     builder
       .addCase(fetchChannels.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload)
+        // state.currentChannel // #TODO добавить установку текущего канала в пользователя
       })
       .addCase(addChannel.fulfilled, (state, action) => {
         channelsAdapter.addOne(state, action.payload)

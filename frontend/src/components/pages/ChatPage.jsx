@@ -10,6 +10,7 @@ import { initSocket } from '../../slices/socketSlice.js'
 
 import ChatComponent from '../ui/Chat.jsx'
 import getModal from '../modals/modals.js'
+import { setCurrentChannel } from '../../slices/usersSlice.js'
 
 const ChatPage = () => {
   const dispatch = useDispatch()
@@ -18,7 +19,7 @@ const ChatPage = () => {
   const user = useSelector((state) => state.users.currentUser)
   const activeId = useSelector((state) => state.channels.activeId)
 
-  const currentChannel = useSelector((state) => channelsSelectors.selectById(state, activeId))
+  const currentChannel = useSelector((state) => state.channels.currentChannel)
   const [modalState, setModalState] = useState({ type: null, item: null })
 
   const hideModal = () => setModalState({ type: null, item: null })
@@ -34,6 +35,7 @@ const ChatPage = () => {
   useEffect(() => {
     if (!activeId && channels.length > 0) {
       dispatch(setActiveId(channels[0]?.id))
+      dispatch(setCurrentChannel(channels.filter(({ id }) => id === activeId)))
     }
   }, [channels, activeId])
 
