@@ -24,7 +24,8 @@ export const addMessage = createAsyncThunk(
   'messages/addMessage',
   async (newMessage) => {
     const response = await axios.post(routes.messagesPath(), newMessage, getHeaders())
-    return response.data // { id: '1', body: 'new message', channelId: '1', username: 'admin }
+    const message = { ...response.data, creationDate: Date.now() }
+    return message // { id: '1', body: 'new message', channelId: '1', username: 'admin }
   }
 )
 
