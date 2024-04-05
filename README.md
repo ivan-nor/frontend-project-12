@@ -1,7 +1,7 @@
 [![Actions Status](https://github.com/ivan-nor/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/ivan-nor/frontend-project-12/actions) [![Maintainability](https://api.codeclimate.com/v1/badges/71398afb8f0b1ebe65bc/maintainability)](https://codeclimate.com/github/ivan-nor/frontend-project-12/maintainability)
 
 
-# Онлайн-чат на React с авторизацией на JWT
+# Онлайн-чат на React с авторизацией на JWT (попробовать можно  [тут](https://frontend-chat-yded.onrender.com))
 
 Этот проект представляет собой простой онлайн-чат, разработанный с использованием технологий React, Redux/Toolkit и JWT-авторизацией. В проекте также используются Formik, Yup, i18next, Bootstrap и Rollbar.
 
