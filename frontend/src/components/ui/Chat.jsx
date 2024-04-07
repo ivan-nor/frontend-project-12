@@ -95,7 +95,7 @@ const Chat = ({
                       color={variant}
                       onClick={() => handleActiveTab(channel.id)}
                     >
-                      <MDBBtnGroup outline className='w-100 shadow-0' color={variant} size='lg'>
+                      <MDBBtnGroup className='w-100 shadow-0' color={variant} size='lg'>
                         <MDBBtn disabled size='lg' color={variant} className='text-start'># {channel.name}</MDBBtn>
                         {channel.removable &&
                           <MDBBtnGroup>
@@ -125,7 +125,7 @@ const Chat = ({
                 {messages?.map((message) => {
                   const isCurrentUserMessage = message.username === user.username
                   const date = new Date(message.creationDate)
-                  console.log(date, isCurrentUserMessage, message)
+                  // console.log(date, isCurrentUserMessage, message)
 
                   return (
                     <div key={message.id}>

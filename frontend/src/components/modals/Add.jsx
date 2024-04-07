@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,7 +24,7 @@ const Add = ({ onHide }) => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .notOneOf(channels.map(({ name }) => name))
+      .notOneOf(channels.map(({ name }) => name), t('messages.errors.channelName'))
       .min(2, t('messages.errors.channelNameLength')) // #TODO ошибки должны заполняться текстами
       .max(20, t('messages.errors.channelNameLength'))
       .required(t('messages.errors.required'))
@@ -52,10 +54,10 @@ const Add = ({ onHide }) => {
   })
 
   return (
-    <Modal show onHide={onHide}>
-      <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>{t('modal.add.title')}</Modal.Title>
-      </Modal.Header>
+  <Modal show onHide={onHide}>
+    <Modal.Header closeButton onHide={onHide}>
+      <Modal.Title>{t('modal.add.title')}</Modal.Title>
+    </Modal.Header>
 
       <Modal.Body>
         <Form onSubmit={f.handleSubmit}>
