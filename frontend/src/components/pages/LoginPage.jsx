@@ -40,6 +40,7 @@ const LoginPage = () => {
     initialValues: {
       username: '',
       password: '',
+      adminkey: '',
     },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
@@ -92,6 +93,15 @@ const LoginPage = () => {
         name="password"
         type="login"
         value={formik.values.password}
+        handleChange={handleChange}
+        handleFocus={handleFocus}
+        isInvalid={formik.errors.password && formik.touched.password}
+        error={formik.errors.password}
+      />
+      <InputComponent
+        name="adminkey"
+        type="adminkey"
+        value={formik.values.adminkey}
         handleChange={handleChange}
         handleFocus={handleFocus}
         isInvalid={formik.errors.password && formik.touched.password}

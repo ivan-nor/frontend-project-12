@@ -23,6 +23,7 @@ import { logoutUser, setCurrentUser } from '../slices/usersSlice.js';
 import useAuth from '../hooks/index.jsx';
 import AuthContext from '../contexts/index.jsx';
 
+import AdminPage from './pages/AdminPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
@@ -53,7 +54,16 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const PrivateRoute = ({ children }) => {
+const PrivateUserRoute = ({ children }) => {
+  const auth = useAuth();
+  const location = useLocation();
+
+  return (
+    auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
+  );
+};
+
+const PrivateAdminRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
 
@@ -101,10 +111,18 @@ const App = () => {
           <Route
             path="/"
             element={(
-              <PrivateRoute>
+              <PrivateUserRoute>
                 <ChatPage />
-              </PrivateRoute>
+              </PrivateUserRoute>
                 )}
+          />
+          <Route
+            path="/admin"
+            element={(
+              <PrivateAdminRoute>
+                <AdminPage />
+              </PrivateAdminRoute>
+            )}
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
@@ -123,7 +141,11 @@ AuthProvider.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-PrivateRoute.propTypes = {
+PrivateUserRoute.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+PrivateAdminRoute.propTypes = {
   children: PropTypes.element.isRequired,
 };
 

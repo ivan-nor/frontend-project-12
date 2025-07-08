@@ -23,9 +23,9 @@ export default {
       logout: 'Выйти',
     },
     header: {
-      logo: 'Hexlet',
-      link: 'Chat',
-      title: 'Hexlet chat',
+      logo: 'Satellites',
+      link: 'Satellites',
+      title: 'Satellites',
     },
     modal: {
       add: {
